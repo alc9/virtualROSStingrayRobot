@@ -1,0 +1,3 @@
+This project is an extension to ROSStingrayRobot. The goal of the project is to
+move ROSStingrayRobot into a ROS gazebo simulation. This project is a work in
+process...
