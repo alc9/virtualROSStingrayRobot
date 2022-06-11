@@ -7,7 +7,4 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/alex/projects/stingRay/virtualStingray/devel:$CMAKE_PREFIX_PATH"
 export PWD='/home/alex/projects/stingRay/virtualStingray/build'
-export ROSLISP_PACKAGE_DIRECTORIES='/home/alex/projects/stingRay/virtualStingray/devel/share/common-lisp'
-export ROS_PACKAGE_PATH="/home/alex/projects/stingRay/virtualStingray/src:$ROS_PACKAGE_PATH"

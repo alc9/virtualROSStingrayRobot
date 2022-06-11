@@ -131,6 +131,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/alex/projects/stingRay/virtualStingray/build/gtest/cmake_install.cmake")
+  include("/home/alex/projects/stingRay/virtualStingray/build/virtualStingray_description/cmake_install.cmake")
 
 endif()
 
