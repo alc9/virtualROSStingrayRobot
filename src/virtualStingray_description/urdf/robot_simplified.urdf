@@ -1,0 +1,74 @@
+<robot name="stingray">
+  <material name="Cyan">
+    <color rgba="0 1.0 1.0 1.0"/>
+  </material>
+
+  <link name="base_link">
+    <visual>
+      <origin rpy="0.0 0.0 0.0" xyz="0.02346 0.02242 0.04289"/>
+      <geometry>
+        <mesh scale="0.001 0.001 0.001" filename="package://virtualStingray_description/meshes/baseLink.stl"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="base_link_to_2nd_link" type="fixed">
+    <parent link="base_link"/>
+    <child link="link_2_large"/>
+    <limit effort="1000.0" lower="-0.38" upper="0" velocity="0.5"/>
+    <origin xyz="0.02346 0.02317 0.03889"/>
+  </joint>
+  <link name="link_2_large">
+    <visual>
+      <origin rpy="0.0 0.0 0.0" xyz="0.02346 0.02217 0.07420"/>
+      <geometry>
+        <mesh scale="0.001 0.001 0.001" filename="package://virtualStingray_description/meshes/LargeLink.stl"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="2nd_link_to_3rd_link" type="fixed">
+    <parent link="link_2_large"/>
+    <child link="link_3_large"/>
+      <origin xyz="0.02346 0.02317 0.07020"/>
+  </joint>
+  <link name="link_3_large">
+    <visual>
+      <origin rpy="0.0 0.0 0.0" xyz="0.02346 0.02217 0.10550"/>
+      <geometry>
+        <mesh scale="0.001 0.001 0.001" filename="package://virtualStingray_description/meshes/LargeLink.stl"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="3rd_link_to_4th_link" type="fixed">
+    <parent link="link_3_large"/>
+    <child link="link_4_small"/>
+      <origin xyz="0.02346 0.02317 0.1015"/>
+  </joint>
+  <link name="link_4_small">
+    <visual>
+      <origin rpy="0.0 0.0 0.0" xyz="0.02346 0.02217 0.12181"/>
+      <geometry>
+        <mesh scale="0.001 0.001 0.001" filename="package://virtualStingray_description/meshes/smallLink.stl"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="4th_link_to_5th_link" type="fixed">
+    <parent link="link_4_small"/>
+    <child link="link_5_small"/>
+      <origin xyz="0.02346 0.02317 0.11781"/>
+  </joint>
+  <link name="link_5_small">
+    <visual>
+      <origin rpy="0.0 0.0 0.0" xyz="0.02346 0.02217 0.13811"/>
+      <geometry>
+        <mesh scale="0.001 0.001 0.001" filename="package://virtualStingray_description/meshes/smallLink.stl"/>
+      </geometry>
+      <material name="Cyan"/>
+    </visual>
+  </link>
+  <gazebo reference="link_5_small">
+    <material>Gazebo/Cyan/</material>
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>True</selfCollide>
+  </gazebo>
+</robot>
