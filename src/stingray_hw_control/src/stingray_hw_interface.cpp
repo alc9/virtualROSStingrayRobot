@@ -17,7 +17,7 @@ StingrayHWInterface::StingrayHWInterface(ros::NodeHandle &nh)
     nh_=new ros::NodeHandle()
     joint_angle_=std_msgs::Float32();
     actuator_pubs_={new
-    nh_.advertise<std_msgs::Float32>("/stingray/joint_manipulator/ray1"), new
+    nh_.advertise<std_msgs::Float32>("/stingray/actuator1/command"), new
     nh_advertise<std_msgs::Float32("/stingray/joint_manipulator")>};
 }
 
