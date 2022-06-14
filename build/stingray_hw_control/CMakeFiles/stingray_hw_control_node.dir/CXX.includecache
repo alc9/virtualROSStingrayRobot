@@ -6,7 +6,17 @@
 
 #IncludeRegexTransform: 
 
-/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/include/stingray_hw_interface.h
+/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.cpp
+stingray_hw_interface.h
+/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.h
+std_msgs/Float32.h
+-
+iostream
+-
+wave.h
+/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/wave.h
+
+/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.h
 ros_control_boilerplate/generic_hw_interface.h
 -
 array
@@ -14,10 +24,16 @@ array
 std_msgs/Float32.h
 -
 
-/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/main.cpp
-../include/stingray_hw_interface.h
-/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/include/stingray_hw_interface.h
-ros/ros.h
+/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/wave.h
+std_msgs/Float64.h
+-
+memory
+-
+boost/coroutine2/all.hpp
+-
+functional
+-
+cmath
 -
 
 /opt/ros/noetic/include/class_loader/class_loader.hpp
@@ -1373,6 +1389,22 @@ joint_limits_interface/joint_limits_urdf.h
 /opt/ros/noetic/include/rosconsole/macros_generated.h
 
 /opt/ros/noetic/include/std_msgs/Float32.h
+string
+-
+vector
+-
+map
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
+
+/opt/ros/noetic/include/std_msgs/Float64.h
 string
 -
 vector

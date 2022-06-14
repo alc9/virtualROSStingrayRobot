@@ -4,33 +4,31 @@
 * Author: Alex Cunningham
 * Start date: 14/06/2022
 */
-#include "include/stingray_hw_interface.h"
+#include "stingray_hw_interface.h"
 #include <std_msgs/Float32.h>
-
-class StingrayHWInterface;
-
-StingrayHWInterface::StingrayHWInterface(ros::NodeHandle &nh)
-    : ros_control_boilerplate::GenericHWInterface(nh)
+#include <iostream>
+#include "wave.h"
+StingrayHWInterface::StingrayHWInterface(ros::NodeHandle &nh,urdf::Model *urdf_model)
+    : ros_control_boilerplate::GenericHWInterface(nh,urdf_model)
 {
-    nh_urdf_=new ros::NodeHandle("/stingray/urdf");
-    this->loadURDF(nh_urdf_,"stingray");
-    nh_=new ros::NodeHandle()
+    nh_=new ros::NodeHandle();
     joint_angle_=std_msgs::Float32();
-    actuator_pubs_={new
-    nh_.advertise<std_msgs::Float32>("/stingray/actuator1/command"), new
-    nh_advertise<std_msgs::Float32("/stingray/joint_manipulator")>};
+    actuator_pubs_={nh_->advertise<std_msgs::Float32>("/stingray/actuator1/command",0),
+    nh_->advertise<std_msgs::Float32>("/stingray/joint_manipulator",0)};
 }
 
 StingrayHWInterface::~StingrayHWInterface(){
-    delete nh_urdf_;
+    //delete nh_urdf_;
     delete nh_;
-    for (auto i : actuator_pubs_ ){
-        delete i;
-    }
 }
-StingrayHWInterface::read(ros::Duration &elapsed_time){}
+void StingrayHWInterface::read(ros::Duration &elapsed_time){}
+void StingrayHWInterface::enforceLimits(ros::Duration& period){}
 
-StingrayHWInterface::write(ros::Duration &elapsed_time){
-    
+void StingrayHWInterface::write(ros::Duration &elapsed_time){
+    //TODO: write position
+    //waveGenerator(); 
+    //for (auto i : waveGenerator){
+    //    std::cout<<i<<'\n'; 
+    //    }
 }
 

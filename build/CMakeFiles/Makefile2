@@ -1105,12 +1105,12 @@ stingray_hw_control/CMakeFiles/controller_manager_msgs_generate_messages_nodejs.
 stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/all:
 	$(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/depend
 	$(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/alex/projects/stingRay/virtualStingray/build/CMakeFiles --progress-num=9,10 "Built target stingray_hw_control_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/alex/projects/stingRay/virtualStingray/build/CMakeFiles --progress-num=9,10,11,12 "Built target stingray_hw_control_node"
 .PHONY : stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/all
 
 # Build rule for subdir invocation for target.
 stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/alex/projects/stingRay/virtualStingray/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/alex/projects/stingRay/virtualStingray/build/CMakeFiles 4
 	$(MAKE) -f CMakeFiles/Makefile2 stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/alex/projects/stingRay/virtualStingray/build/CMakeFiles 0
 .PHONY : stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/rule

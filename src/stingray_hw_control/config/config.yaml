@@ -1,0 +1,10 @@
+stingray:
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+# minimal position interface http://wiki.ros.org/joint_trajectory_controller
+# will add velocity - so joints don't arrive too early for sine wave
+  actuator1:
+    type: position_controller/JointTrajectoryController
+    joint: base_link_to_2nd_link
+

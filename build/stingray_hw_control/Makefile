@@ -1139,6 +1139,60 @@ src/main.cpp.s:
 	cd /home/alex/projects/stingRay/virtualStingray/build && $(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/stingray_hw_interface.o: src/stingray_hw_interface.cpp.o
+
+.PHONY : src/stingray_hw_interface.o
+
+# target to build an object file
+src/stingray_hw_interface.cpp.o:
+	cd /home/alex/projects/stingRay/virtualStingray/build && $(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/stingray_hw_interface.cpp.o
+.PHONY : src/stingray_hw_interface.cpp.o
+
+src/stingray_hw_interface.i: src/stingray_hw_interface.cpp.i
+
+.PHONY : src/stingray_hw_interface.i
+
+# target to preprocess a source file
+src/stingray_hw_interface.cpp.i:
+	cd /home/alex/projects/stingRay/virtualStingray/build && $(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/stingray_hw_interface.cpp.i
+.PHONY : src/stingray_hw_interface.cpp.i
+
+src/stingray_hw_interface.s: src/stingray_hw_interface.cpp.s
+
+.PHONY : src/stingray_hw_interface.s
+
+# target to generate assembly for a file
+src/stingray_hw_interface.cpp.s:
+	cd /home/alex/projects/stingRay/virtualStingray/build && $(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/stingray_hw_interface.cpp.s
+.PHONY : src/stingray_hw_interface.cpp.s
+
+src/wave.o: src/wave.cpp.o
+
+.PHONY : src/wave.o
+
+# target to build an object file
+src/wave.cpp.o:
+	cd /home/alex/projects/stingRay/virtualStingray/build && $(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/wave.cpp.o
+.PHONY : src/wave.cpp.o
+
+src/wave.i: src/wave.cpp.i
+
+.PHONY : src/wave.i
+
+# target to preprocess a source file
+src/wave.cpp.i:
+	cd /home/alex/projects/stingRay/virtualStingray/build && $(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/wave.cpp.i
+.PHONY : src/wave.cpp.i
+
+src/wave.s: src/wave.cpp.s
+
+.PHONY : src/wave.s
+
+# target to generate assembly for a file
+src/wave.cpp.s:
+	cd /home/alex/projects/stingRay/virtualStingray/build && $(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/wave.cpp.s
+.PHONY : src/wave.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1218,6 +1272,12 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/stingray_hw_interface.o"
+	@echo "... src/stingray_hw_interface.i"
+	@echo "... src/stingray_hw_interface.s"
+	@echo "... src/wave.o"
+	@echo "... src/wave.i"
+	@echo "... src/wave.s"
 .PHONY : help
 
 
