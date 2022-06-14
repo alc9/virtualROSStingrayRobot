@@ -112,7 +112,7 @@ stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.o: /opt
 stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.o: /opt/ros/noetic/include/ros/wall_timer_options.h
 stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.o: /opt/ros/noetic/include/ros_control_boilerplate/generic_hw_interface.h
 stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.o: /opt/ros/noetic/include/rosconsole/macros_generated.h
-stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.o: /opt/ros/noetic/include/std_msgs/Float64.h
+stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.o: /opt/ros/noetic/include/std_msgs/Float32.h
 stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.o: /opt/ros/noetic/include/urdf/model.h
 stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.o: /opt/ros/noetic/include/urdf/urdfdom_compatibility.h
 stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.o: /opt/ros/noetic/include/urdf/visibility_control.hpp

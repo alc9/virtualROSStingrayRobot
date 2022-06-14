@@ -11,7 +11,7 @@ ros_control_boilerplate/generic_hw_interface.h
 -
 array
 -
-std_msgs/Float64.h
+std_msgs/Float32.h
 -
 
 /home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/main.cpp
@@ -1372,7 +1372,7 @@ joint_limits_interface/joint_limits_urdf.h
 
 /opt/ros/noetic/include/rosconsole/macros_generated.h
 
-/opt/ros/noetic/include/std_msgs/Float64.h
+/opt/ros/noetic/include/std_msgs/Float32.h
 string
 -
 vector

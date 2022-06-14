@@ -8,7 +8,7 @@
 #pragma once
 #include <ros_control_boilerplate/generic_hw_interface.h>
 #include <array>
-#include <std_msgs/Float64.h>
+#include <std_msgs/Float32.h>
 
 class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
     StingrayHWInterface(const StingrayHWInterface& s) = delete;
@@ -27,6 +27,6 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
         //set actuator positions
         std::array<ros::Publisher,10> actuator_pubs_;
         //offset for actuator positions - left_fin + index
-        //urdf::Model * urdfModel_=nullptr;
-        ros::NodeHandle* nh_urdf_;
+        ros::NodeHandle* nh_urdf_ = nullptr;
+        std_msgs::Float32 joint_angle_;
 };

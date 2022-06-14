@@ -11,3 +11,4 @@
 void waveGenerator(coro_t::push_type& yield, const float& freq, const float& time, const float& phaseDif,const int& actuatorIndex){
     yield((M_PI/180.0)*sin((freq*2*M_PI*time)+(phaseDif*actuatorIndex)));
 }
+auto waveGenerator = std::bind(&waveGenerator,_1,_2,_3,_4,_5);
