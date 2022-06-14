@@ -1,15 +1,19 @@
 /*
 * Filename: wave.h
-* Description: contains wave based logic
+* Description: wave based functions
 * Author: Alex Cunningham
-* Start date: 13/06/2022
+* Start date: 14/06/2022
 */
 #pragma once
 #include <std_msgs/Float64.h>
-#include <vector>
+#include <memory>
+#include <boost/coroutine2/all.hpp>
+#include <functional>
+#include <cmath>
+//During periods of control oscillation there is no reason to cache wave
+//position arrays, so instead use a generator
+typedef boost::coroutines2::coroutine<float> coro_t;
 
-//Wave - 
-class Wave{
-    Wave();
+void waveGenerator(coro_t::push_type& yield, const float& freq, const float& time, const float& phaseDif, const int& actuatorIndex);
 
-};
+

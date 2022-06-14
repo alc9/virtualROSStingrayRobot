@@ -1,2 +1,2 @@
-virtualStingray_description
+stingray_hw_control:virtualStingray_description
 -DCATKIN_DEVEL_PREFIX=/home/alex/projects/stingRay/virtualStingray/devel -DCMAKE_INSTALL_PREFIX=/home/alex/projects/stingRay/virtualStingray/install -G Unix Makefiles

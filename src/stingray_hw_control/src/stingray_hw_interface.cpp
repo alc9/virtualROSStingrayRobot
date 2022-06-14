@@ -4,7 +4,7 @@
 * Author: Alex Cunningham
 * Start date: 14/06/2022
 */
-#include <stingray_hw_control/stingray_hw_interface.h>
+#include "include/stingray_hw_interface.h"
 #include <std_msgs/Float64.h>
 
 class StingrayHWInterface;
@@ -16,3 +16,7 @@ StingrayHWInterface::StingrayHWInterface(ros::NodeHandle &nh)
     this->loadURDF(nh_urdf_,"stingray");
     
 }
+
+StingrayHWInterface::read(ros::Duration &elapsed_time){}
+StingrayHWInterface::write(ros::Duration &elapsed_time){}
+

@@ -1,0 +1,8 @@
+prefix=/home/alex/projects/stingRay/virtualStingray/devel
+
+Name: stingray_hw_control
+Description: Description of stingray_hw_control
+Version: 0.0.0
+Cflags: -I/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/include
+Libs: -L${prefix}/lib 
+Requires: 

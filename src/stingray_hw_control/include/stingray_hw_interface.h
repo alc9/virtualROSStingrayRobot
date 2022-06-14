@@ -11,8 +11,8 @@
 #include <std_msgs/Float64.h>
 
 class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
-    StingrayHWInterface(const StingrayHWInterface& s)=delete;
-    auto operator=(const StingrayHWInterface& s)=delete;
+    StingrayHWInterface(const StingrayHWInterface& s) = delete;
+    auto operator=(const StingrayHWInterface& s)->StingrayHWInterface& = delete;
     public:
         //manage load urdf model via init
         StingrayHWInterface(ros::NodeHandle &nh);
@@ -27,7 +27,6 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
         //set actuator positions
         std::array<ros::Publisher,10> actuator_pubs_;
         //offset for actuator positions - left_fin + index
-        enum actuator_offset_{"left_fin"=0,"right_fin"=5};
         //urdf::Model * urdfModel_=nullptr;
         ros::NodeHandle* nh_urdf_;
 };
