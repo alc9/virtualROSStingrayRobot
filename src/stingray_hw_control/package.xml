@@ -53,9 +53,9 @@
   <build_depend>std_msgs</build_depend>
   <build_depend>ros_control_boiler_plate</build_depend>
   <build_export_depend>roscpp</build_export_depend>
-  <run_depend>controller_manager</run_depend>
-  <run_depend>ros_control_boilerplate</run_depend>
-  <run_depend>std_msgs</run_depend>
+  <exec_depend>controller_manager</run_depend>
+  <exec_depend>ros_control_boilerplate</run_depend>
+  <exec_depend>std_msgs</run_depend>
   <exec_depend>roscpp</exec_depend>
   
 

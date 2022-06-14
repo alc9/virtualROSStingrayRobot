@@ -1,5 +1,5 @@
 /*
-* Filename stingray_hw_interface.h
+* Filename: stingray_hw_interface.h
 * Description: provides an interface which loads URDF, performs control based
 * on required waveform, sets joint positions
 * Author: Alex Cunningham
@@ -8,6 +8,7 @@
 #pragma once
 #include <ros_control_boilerplate/generic_hw_interface.h>
 #include <array>
+#include <std_msgs/Float64.h>
 
 class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
     StingrayHWInterface(const StingrayHWInterface& s)=delete;
@@ -21,11 +22,12 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
 
         virtual void write(ros::Duration &elapsed_time);
 
-        virtual void enforceLimits(ros::Duration &period) 
+        //virtual void enforceLimits(ros::Duration &period) 
     private:
         //set actuator positions
-        //TODO: joint_group_velocity_controller?
         std::array<ros::Publisher,10> actuator_pubs_;
         //offset for actuator positions - left_fin + index
-        const enum actuator_offset_{"left_fin"=0,"right_fin"=5};
+        enum actuator_offset_{"left_fin"=0,"right_fin"=5};
+        //urdf::Model * urdfModel_=nullptr;
+        ros::NodeHandle* nh_urdf_;
 };
