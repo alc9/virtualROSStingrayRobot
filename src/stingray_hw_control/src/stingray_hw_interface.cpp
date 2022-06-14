@@ -14,9 +14,20 @@ StingrayHWInterface::StingrayHWInterface(ros::NodeHandle &nh)
 {
     nh_urdf_=new ros::NodeHandle("/stingray/urdf");
     this->loadURDF(nh_urdf_,"stingray");
+    nh_=new ros::NodeHandle()
     joint_angle_=std_msgs::Float32();
+    actuator_pubs_={new
+    nh_.advertise<std_msgs::Float32>("/stingray/joint_manipulator/ray1"), new
+    nh_advertise<std_msgs::Float32("/stingray/joint_manipulator")>};
 }
 
+StingrayHWInterface::~StingrayHWInterface(){
+    delete nh_urdf_;
+    delete nh_;
+    for (auto i : actuator_pubs_ ){
+        delete i;
+    }
+}
 StingrayHWInterface::read(ros::Duration &elapsed_time){}
 
 StingrayHWInterface::write(ros::Duration &elapsed_time){
