@@ -12,3 +12,4 @@ frequency-joint control
 dynamic urdf
 control nodes - https://medium.com/geekculture/robot-operating-system-expose-control-nodes-for-an-interactive-simulation-in-gazebo-ff4b3544d25
 control - https://roboticscasual.com/ros-tutorial-control-the-ur5-robot-with-ros_control-tuning-a-pid-controller/
+testing-
