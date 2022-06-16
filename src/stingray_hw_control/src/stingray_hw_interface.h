@@ -14,7 +14,8 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
-//TODO: subscribe to joint angles 
+
+
 typedef std::unordered_map<std::string,int> ActuatorIds;
 //data class for actuator base links
 //struct ActuatorIds{ unsigned int R1,R2,R3,R4,R5,L1,L2,L3,L4,L5; };
@@ -39,16 +40,32 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
 
         virtual void enforceLimits(ros::Duration &period); 
     private:
-        void initStingrayHWInterface(void) noexcept; 
+        void initStingrayHWInterface(void) noexcept;
+        void writeJointPositionsLeft();
+        void writeJointPositionsRight();
         //TODO: pointers to publishers?
-        std::array<ros::Publisher,2> actuator_pubs_;
-        //offset for actuator positions - left_fin + index
-        std_msgs::Float64 joint_angle_msg_;
+        std::array<ros::Publisher,5> actuator_pubs_right_;
+        std::array<ros::Publisher,5> actuator_pubs_left_;
+        //used for assigning double values
+        //two copies to avoid race condition
+        std_msgs::Float64 joint_angle_msg_left_;
+        std_msgs::Float64 joint_angle_msg_right_;
         ActuatorIds actuator_ids_;
         //current goal for joint angle
         double joint_angle_goal_;
-        //joints are increasing to goal angle
+        //joints are increasing to goal angle - +ve frequency = upwards
         bool upwards_;
         //limit write to control_param_lock_ for subscribers
         bool control_param_lock_;
+        //control parameters
+        //right hand side
+        double f_right_;
+        double time_;
+        double phaseDif_right_;
+        double joint_angle_goal_right_;
+        //left hand side
+        double f_left_;
+        double phaseDif_left_;
+        double joint_angle_goal_left_;
+
 };

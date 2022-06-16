@@ -15,14 +15,13 @@ StingrayHWInterface::StingrayHWInterface(ros::NodeHandle &nh,urdf::Model *urdf_m
 }
 
 StingrayHWInterface::~StingrayHWInterface(){
-    //delete nh_urdf_;
     delete nh_;
 }
 
-
 void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
-    
     //TODO: initialize wave, control, frequency ...
+    upwards_=true;
+    control_param_lock_=false;
     //get IDs for base joint for each actuator (mimic actuator)
     auto jointIdNames=std::array<std::string,5>{"R1_base_link_to_2nd_link"," "," "," ", " "};
     std::for_each(jointIdNames.begin(),jointIdNames.end(),[this](std::string& str) mutable{
@@ -37,8 +36,24 @@ void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
         }
         });
     //definitiion in config.yaml + .launch
-    actuator_pubs_={nh_->advertise<std_msgs::Float64>("/stingray/actuator1/command",0),
-    nh_->advertise<std_msgs::Float64>("/stingray/joint_manipulator",0)};
+    actuator_pubs_right_={nh_->advertise<std_msgs::Float64>("/stingray/actuator1/command",0),
+    nh_->advertise<std_msgs::Float64>("/stingray/actuator2/command",0),
+    nh_->advertise<std_msgs::Float64>("/stingray/actuator3/command",0),
+    nh_->advertise<std_msgs::Float64>("/stingray/actuator4/command",0),
+    nh_->advertise<std_msgs::Float64>("/stingray/actuator5/command",0)};
+
+    actuator_pubs_left_={nh_->advertise<std_msgs::Float64>("/stingray/actuator6/command",0),
+    nh_->advertise<std_msgs::Float64>("/stingray/actuator7/command",0),
+    nh_->advertise<std_msgs::Float64>("/stingray/actuator8/command",0),
+    nh_->advertise<std_msgs::Float64>("/stingray/actuator9/command",0),
+    nh_->advertise<std_msgs::Float64>("/stingray/actuator10/command",0)};
+
+    //set states used for producing wave
+    upwards_=true;
+    f_right_=1.0;
+    time_=0.0;
+    phaseDif_right_=f_right_*2*M_PI/(actuator_ids_.size()/2);
+    //joint_angle_goal_=waveGenerator(f_right_,time_,phaseDif_,0);
 }
 
 void StingrayHWInterface::read(ros::Duration &elapsed_time){
@@ -51,21 +66,35 @@ void StingrayHWInterface::read(ros::Duration &elapsed_time){
     }
     return;
 }
+
 void StingrayHWInterface::enforceLimits(ros::Duration& period){
     //enforce position and velocity
     pos_jnt_sat_interface_.enforceLimits(period);
 }
 
+void StingrayHWInterface::writeJointPositionsRight(){
+    //iterate over joint publishers
+    for (auto actuatorPubIt=actuator_pubs_right_.begin(); actuatorPubIt!=actuator_pubs_right_.end();actuatorPubIt++){
+        joint_angle_msg_right_.data=waveGenerator(f_right_,time_,phaseDif_right_, actuatorPubIt - actuator_pubs_right_.begin());
+        actuatorPubIt->publish(joint_angle_msg_right_);
+    }
+}
+
+void StingrayHWInterface::writeJointPositionsLeft(){
+    //iterate over joint publishers
+    for (auto actuatorPubIt=actuator_pubs_left_.begin(); actuatorPubIt!=actuator_pubs_left_.end();actuatorPubIt++){
+        joint_angle_msg_left_.data=waveGenerator(f_left_,time_,phaseDif_left_, actuatorPubIt - actuator_pubs_left_.begin());
+        actuatorPubIt->publish(joint_angle_msg_left_);
+    }
+}
+
 void StingrayHWInterface::write(ros::Duration &elapsed_time){
-    //TODO: write position
-    //waveGenerator(); 
-    //for (auto i : waveGenerator){
-    //    std::cout<<i<<'\n'; 
-    //    }
+
     enforceLimits(elapsed_time);
     if (!control_param_lock_){
         return;
     }
+    
     control_param_lock_=false;
     //if goal position reached then call waveGenerator
     //set joint positions and wave - on different threads then wait

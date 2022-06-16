@@ -6,6 +6,12 @@
 
 #IncludeRegexTransform: 
 
+/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/main.cpp
+stingray_hw_interface.h
+/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.h
+ros/ros.h
+-
+
 /home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.cpp
 stingray_hw_interface.h
 /home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.h
@@ -34,10 +40,6 @@ algorithm
 std_msgs/Float64.h
 -
 memory
--
-boost/coroutine2/all.hpp
--
-functional
 -
 cmath
 -
