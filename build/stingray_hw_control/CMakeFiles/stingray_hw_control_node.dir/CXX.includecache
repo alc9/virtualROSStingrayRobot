@@ -6,12 +6,22 @@
 
 #IncludeRegexTransform: 
 
+/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/main.cpp
+stingray_hw_interface.h
+/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.h
+ros/ros.h
+-
+
 /home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.cpp
 stingray_hw_interface.h
 /home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.h
-std_msgs/Float32.h
+std_msgs/Float64.h
 -
 iostream
+-
+string
+-
+array
 -
 wave.h
 /home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/wave.h
@@ -21,7 +31,7 @@ ros_control_boilerplate/generic_hw_interface.h
 -
 array
 -
-std_msgs/Float32.h
+std_msgs/Float64.h
 -
 
 /home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/wave.h
@@ -1387,22 +1397,6 @@ joint_limits_interface/joint_limits_urdf.h
 -
 
 /opt/ros/noetic/include/rosconsole/macros_generated.h
-
-/opt/ros/noetic/include/std_msgs/Float32.h
-string
--
-vector
--
-map
--
-ros/types.h
--
-ros/serialization.h
--
-ros/builtin_message_traits.h
--
-ros/message_operations.h
--
 
 /opt/ros/noetic/include/std_msgs/Float64.h
 string
