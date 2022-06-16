@@ -23,7 +23,7 @@ void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
     upwards_=true;
     control_param_lock_=false;
     //get IDs for base joint for each actuator (mimic actuator)
-    auto jointIdNames=std::array<std::string,5>{"R1_base_link_to_2nd_link"," "," "," ", " "};
+    auto jointIdNames=std::array<std::string,1>{"R1_base_link_to_2nd_link"}; //"L1_base_link_to_2nd_link"
     std::for_each(jointIdNames.begin(),jointIdNames.end(),[this](std::string& str) mutable{
         auto pos = std::find(this->joint_names_.begin(),this->joint_names_.end(),str);
         if (pos==joint_names_.end()){
@@ -51,16 +51,17 @@ void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
     //set states used for producing wave
     upwards_=true;
     f_right_=1.0;
-    time_=0.0;
+    smooth_time_right_=0.0;
     phaseDif_right_=f_right_*2*M_PI/(actuator_ids_.size()/2);
-    //joint_angle_goal_=waveGenerator(f_right_,time_,phaseDif_,0);
+    //move to initialize wave position
+    //TODO: both right and left/ plus mesh
+    writeJointPositionsRight();
 }
 
 //Read joint positions, inform if angles met
 void StingrayHWInterface::read(ros::Duration &elapsed_time){
     //goal reached -> what frequency, position and velocity
     //read registers import subscribed parameters
-    
     if (((joint_position_[actuator_ids_["R1"]]>=joint_angle_goal_*0.99) ^ upwards_)){
         //lock access to control params from subscribers
         control_param_lock_=true;
@@ -76,8 +77,11 @@ void StingrayHWInterface::enforceLimits(ros::Duration& period){
 void StingrayHWInterface::writeJointPositionsRight(){
     //iterate over joint publishers
     for (auto actuatorPubIt=actuator_pubs_right_.begin(); actuatorPubIt!=actuator_pubs_right_.end();actuatorPubIt++){
-        joint_angle_msg_right_.data=waveGenerator(f_right_,time_,phaseDif_right_, actuatorPubIt - actuator_pubs_right_.begin());
+        joint_angle_msg_right_.data=waveGenerator(f_right_,smooth_time_right_,phaseDif_right_, actuatorPubIt - actuator_pubs_right_.begin());
         std::cout<<joint_angle_msg_right_.data<<std::endl;
+        if (actuatorPubIt==actuator_pubs_right_.begin()){
+            upwards_=joint_angle_msg_right_.data>joint_position_[actuator_ids_["R1"]]?true:false;
+        }
         actuatorPubIt->publish(joint_angle_msg_right_);
     }
 }
@@ -85,7 +89,10 @@ void StingrayHWInterface::writeJointPositionsRight(){
 void StingrayHWInterface::writeJointPositionsLeft(){
     //iterate over joint publishers
     for (auto actuatorPubIt=actuator_pubs_left_.begin(); actuatorPubIt!=actuator_pubs_left_.end();actuatorPubIt++){
-        joint_angle_msg_left_.data=waveGenerator(f_left_,time_,phaseDif_left_, actuatorPubIt - actuator_pubs_left_.begin());
+        joint_angle_msg_left_.data=waveGenerator(f_left_,smooth_time_left_,phaseDif_left_, actuatorPubIt - actuator_pubs_left_.begin());
+        if (actuatorPubIt==actuator_pubs_left_.begin()){
+            upwards_=joint_angle_msg_left_.data>joint_position_[actuator_ids_["L1"]]?true:false;
+        }
         actuatorPubIt->publish(joint_angle_msg_left_);
     }
 }
@@ -95,11 +102,12 @@ void StingrayHWInterface::setControlParams(){
     //if: f_right_prev_ is approx == f_right_
     //f_right_=f_right_prev_
     //else: remap control params
+    smooth_time_right_=asin(2*M_PI*f_right_prev_*smooth_time_right_)+delay_time_;
+    //time_+=delay_time_;
 }
 
 void StingrayHWInterface::write(ros::Duration &elapsed_time){
     enforceLimits(elapsed_time);
-    time_= elapsed_time.toSec()+delay_time_;
     //control_param_lock_ == true if reached goal angle
     if (!control_param_lock_){
         //increment time

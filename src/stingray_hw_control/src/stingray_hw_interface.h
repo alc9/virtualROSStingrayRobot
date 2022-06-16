@@ -59,10 +59,11 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
         //limit write to control_param_lock_ for subscribers
         bool control_param_lock_;
         
-        //control parameters
-        double time_;
         //delay between adjusting control parameters
         double delay_time_=0.005;
+        //smooth transition time adjustment
+        double smooth_time_right_=0.0;
+        double smooth_time_left_=0.0;
         //right hand side
         //no point redoing everything if f_right_ is approx f_right_prev
         double f_right_prev_;
