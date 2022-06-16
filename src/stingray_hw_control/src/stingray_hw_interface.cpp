@@ -56,11 +56,12 @@ void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
     //joint_angle_goal_=waveGenerator(f_right_,time_,phaseDif_,0);
 }
 
+//Read joint positions, inform if angles met
 void StingrayHWInterface::read(ros::Duration &elapsed_time){
     //goal reached -> what frequency, position and velocity
     //read registers import subscribed parameters
     
-    if (((joint_position_[actuator_ids_["R1"]]>=joint_angle_goal_*0.99) ^ upwards_) || control_param_lock_){
+    if (((joint_position_[actuator_ids_["R1"]]>=joint_angle_goal_*0.99) ^ upwards_)){
         //lock access to control params from subscribers
         control_param_lock_=true;
     }
@@ -76,6 +77,7 @@ void StingrayHWInterface::writeJointPositionsRight(){
     //iterate over joint publishers
     for (auto actuatorPubIt=actuator_pubs_right_.begin(); actuatorPubIt!=actuator_pubs_right_.end();actuatorPubIt++){
         joint_angle_msg_right_.data=waveGenerator(f_right_,time_,phaseDif_right_, actuatorPubIt - actuator_pubs_right_.begin());
+        std::cout<<joint_angle_msg_right_.data<<std::endl;
         actuatorPubIt->publish(joint_angle_msg_right_);
     }
 }
@@ -88,13 +90,26 @@ void StingrayHWInterface::writeJointPositionsLeft(){
     }
 }
 
-void StingrayHWInterface::write(ros::Duration &elapsed_time){
+//TODO: not implemented for testing purposes
+void StingrayHWInterface::setControlParams(){
+    //if: f_right_prev_ is approx == f_right_
+    //f_right_=f_right_prev_
+    //else: remap control params
+}
 
+void StingrayHWInterface::write(ros::Duration &elapsed_time){
     enforceLimits(elapsed_time);
+    time_= elapsed_time.toSec()+delay_time_;
+    //control_param_lock_ == true if reached goal angle
     if (!control_param_lock_){
+        //increment time
         return;
     }
-    
+    //actuator has reached goal angle
+    setControlParams();
+    //TODO: set joint positions and wave - on different threads then wait
+    //TODO: e.g threads(meshFinLeft,meshFinRight) then threads(writeJointPositionsLeft,writeJointPositionsRight)
+    writeJointPositionsRight();
     control_param_lock_=false;
     //if goal position reached then call waveGenerator
     //set joint positions and wave - on different threads then wait

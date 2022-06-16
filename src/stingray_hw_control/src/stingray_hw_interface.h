@@ -43,6 +43,7 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
         void initStingrayHWInterface(void) noexcept;
         void writeJointPositionsLeft();
         void writeJointPositionsRight();
+        void setControlParams();
         //TODO: pointers to publishers?
         std::array<ros::Publisher,5> actuator_pubs_right_;
         std::array<ros::Publisher,5> actuator_pubs_left_;
@@ -57,13 +58,19 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
         bool upwards_;
         //limit write to control_param_lock_ for subscribers
         bool control_param_lock_;
+        
         //control parameters
-        //right hand side
-        double f_right_;
         double time_;
+        //delay between adjusting control parameters
+        double delay_time_=0.005;
+        //right hand side
+        //no point redoing everything if f_right_ is approx f_right_prev
+        double f_right_prev_;
+        double f_right_;
         double phaseDif_right_;
         double joint_angle_goal_right_;
         //left hand side
+        double f_left_prev_;
         double f_left_;
         double phaseDif_left_;
         double joint_angle_goal_left_;
