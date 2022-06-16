@@ -6,23 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/main.cpp
-stingray_hw_interface.h
-/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.h
-ros/ros.h
--
-
 /home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.cpp
 stingray_hw_interface.h
 /home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.h
-std_msgs/Float64.h
--
-iostream
--
-string
--
-array
--
 wave.h
 /home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/wave.h
 
@@ -32,6 +18,16 @@ ros_control_boilerplate/generic_hw_interface.h
 array
 -
 std_msgs/Float64.h
+-
+unordered_map
+-
+boost/format.hpp
+-
+string
+-
+iostream
+-
+algorithm
 -
 
 /home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/wave.h

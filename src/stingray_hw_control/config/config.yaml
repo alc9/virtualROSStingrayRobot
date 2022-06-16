@@ -6,5 +6,5 @@ stingray:
 # will add velocity - so joints don't arrive too early for sine wave
   actuator1:
     type: position_controller/JointTrajectoryController
-    joint: base_link_to_2nd_link
+    joint: R1_base_link_to_2nd_link
 

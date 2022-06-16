@@ -10,7 +10,7 @@
 
   <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
   
-  <node name="controler_spawner" pkg="controller_manager" type="spawner"
+  <node name="controller_spawner" pkg="controller_manager" type="spawner"
   
   respawn="false" output="screen" ns="/stingray" args="actuator1"/>
   

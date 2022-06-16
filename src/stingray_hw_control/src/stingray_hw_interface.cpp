@@ -5,16 +5,12 @@
 * Start date: 14/06/2022
 */
 #include "stingray_hw_interface.h"
-#include <std_msgs/Float64.h>
-#include <iostream>
-#include <string>
-#include <array>
 #include "wave.h"
 StingrayHWInterface::StingrayHWInterface(ros::NodeHandle &nh,urdf::Model *urdf_model)
     : ros_control_boilerplate::GenericHWInterface(nh,urdf_model)
 {
     nh_=new ros::NodeHandle();
-    initSubsAndPubs();
+    initStingrayHWInterface();
     //get joint angle IDs
 }
 
@@ -23,25 +19,33 @@ StingrayHWInterface::~StingrayHWInterface(){
     delete nh_;
 }
 
-void StingrayHWInterface::initSubsAndPubs(void) noexcept{
-    actuator_pubs_={nh_->advertise<std_msgs::Float64>("/stingray/actuator1/command",0),
-    nh_->advertise<std_msgs::Float64>("/stingray/joint_manipulator",0)};
-}
 
 void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
+    
     //TODO: initialize wave, control, frequency ...
     //get IDs for base joint for each actuator (mimic actuator)
     auto jointIdNames=std::array<std::string,5>{"R1_base_link_to_2nd_link"," "," "," ", " "};
-    for (auto it : jointIdNames){
-        
-    }
+    std::for_each(jointIdNames.begin(),jointIdNames.end(),[this](std::string& str) mutable{
+        auto pos = std::find(this->joint_names_.begin(),this->joint_names_.end(),str);
+        if (pos==joint_names_.end()){
+            std::cerr<<boost::format("jointIDName %1% is missing") % 1;
+            std::cerr<<"exiting...";
+            ros::shutdown();
+        }
+        else{
+            actuator_ids_[str.substr(0,2)]=pos-joint_names_.begin();
+        }
+        });
+    //definitiion in config.yaml + .launch
+    actuator_pubs_={nh_->advertise<std_msgs::Float64>("/stingray/actuator1/command",0),
+    nh_->advertise<std_msgs::Float64>("/stingray/joint_manipulator",0)};
 }
 
 void StingrayHWInterface::read(ros::Duration &elapsed_time){
     //goal reached -> what frequency, position and velocity
     //read registers import subscribed parameters
     
-    if (((joint_position_[actuator_ids_.R1]>=joint_angle_goal_*0.99) ^ upwards_) || control_param_lock_){
+    if (((joint_position_[actuator_ids_["R1"]]>=joint_angle_goal_*0.99) ^ upwards_) || control_param_lock_){
         //lock access to control params from subscribers
         control_param_lock_=true;
     }

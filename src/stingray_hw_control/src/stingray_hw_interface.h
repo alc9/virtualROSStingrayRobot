@@ -9,13 +9,15 @@
 #include <ros_control_boilerplate/generic_hw_interface.h>
 #include <array>
 #include <std_msgs/Float64.h>
+#include <unordered_map>
+#include <boost/format.hpp>
+#include <string>
+#include <iostream>
+#include <algorithm>
 //TODO: subscribe to joint angles 
-
+typedef std::unordered_map<std::string,int> ActuatorIds;
 //data class for actuator base links
-struct ActuatorIds
-    {
-        unsigned int R1,R2,R3,R4,R5,L1,L2,L3,L4,L5;
-    };
+//struct ActuatorIds{ unsigned int R1,R2,R3,R4,R5,L1,L2,L3,L4,L5; };
 //Control related functionality: control system eqn, joint motion control and fin wave joint generation
 //@param nh - node handle 
 //@param urdf_model - urdf model for robot
@@ -37,7 +39,6 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
 
         virtual void enforceLimits(ros::Duration &period); 
     private:
-        void initSubsAndPubs(void) noexcept;
         void initStingrayHWInterface(void) noexcept; 
         //TODO: pointers to publishers?
         std::array<ros::Publisher,2> actuator_pubs_;
