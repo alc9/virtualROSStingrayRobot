@@ -12,8 +12,8 @@
     </visual>
   </link>
   <joint name="R1_base_link_to_2nd_link" type="fixed">
-    <parent link="base_link"/>
-    <child link="link_2_large"/>
+    <parent link="R1_base_link"/>
+    <child link="R1_link_2_large"/>
     <limit effort="1000.0" lower="-0.38" upper="0" velocity="0.5"/>
     <origin xyz="0.02346 0.02317 0.03889"/>
   </joint>
@@ -26,10 +26,10 @@
     </visual>
   </link>
   <joint name="R1_2nd_link_to_3rd_link" type="fixed">
-    <parent link="link_2_large"/>
-    <child link="link_3_large"/>
+    <parent link="R1_link_2_large"/>
+    <child link="R1_link_3_large"/>
     <origin xyz="0.02346 0.02317 0.07020"/>
-    <mimic joint="base_link_to_2nd_link" multiplier=1.0 offset=0.0/>
+    <mimic joint="R1_base_link_to_2nd_link" multiplier="1.0" offset="0.0"/>
   </joint>
   <link name="R1_link_3_large">
     <visual>
@@ -40,10 +40,10 @@
     </visual>
   </link>
   <joint name="R1_3rd_link_to_4th_link" type="fixed">
-    <parent link="link_3_large"/>
-    <child link="link_4_small"/>
+    <parent link="R1_link_3_large"/>
+    <child link="R1_link_4_small"/>
     <origin xyz="0.02346 0.02317 0.1015"/>
-    <mimic joint="base_link_to_2nd_link" multiplier=1.0 offset=0.0/>
+    <mimic joint="R1_base_link_to_2nd_link" multiplier="1.0" offset="0.0"/>
   </joint>
   <link name="R1_link_4_small">
     <visual>
@@ -54,10 +54,10 @@
     </visual>
   </link>
   <joint name="R1_4th_link_to_5th_link" type="fixed">
-    <parent link="link_4_small"/>
-    <child link="link_5_small"/>
+    <parent link="R1_link_4_small"/>
+    <child link="R1_link_5_small"/>
     <origin xyz="0.02346 0.02317 0.11781"/>
-    <mimic joint="base_link_to_2nd_link" multiplier=1.0 offset=0.0/>
+    <mimic joint="R1_base_link_to_2nd_link" multiplier="1.0" offset="0.0"/>
   </joint>
   <link name="R1_link_5_small">
     <visual>

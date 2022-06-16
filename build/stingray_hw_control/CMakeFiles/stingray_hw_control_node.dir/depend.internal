@@ -111,6 +111,7 @@ stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.o
  /opt/ros/noetic/include/ros/types.h
  /opt/ros/noetic/include/ros/wall_timer.h
  /opt/ros/noetic/include/ros/wall_timer_options.h
+ /opt/ros/noetic/include/ros_control_boilerplate/generic_hw_control_loop.h
  /opt/ros/noetic/include/ros_control_boilerplate/generic_hw_interface.h
  /opt/ros/noetic/include/rosconsole/macros_generated.h
  /opt/ros/noetic/include/std_msgs/Float64.h
