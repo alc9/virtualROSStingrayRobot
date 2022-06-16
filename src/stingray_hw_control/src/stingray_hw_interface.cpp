@@ -21,8 +21,20 @@ StingrayHWInterface::~StingrayHWInterface(){
     //delete nh_urdf_;
     delete nh_;
 }
-void StingrayHWInterface::read(ros::Duration &elapsed_time){}
-void StingrayHWInterface::enforceLimits(ros::Duration& period){}
+void StingrayHWInterface::read(ros::Duration &elapsed_time){
+    //goal reached -> what frequency, position and velocity
+    //read registers import subscribed parameters
+    
+    if (((joint_angle_>=joint_angle_goal_*0.99) ^ upwards_) || control_param_lock_){
+        //lock access to control params from subscribers
+        control_param_lock_=true;
+    }
+    return;
+}
+void StingrayHWInterface::enforceLimits(ros::Duration& period){
+    //enforce position and velocity
+    pos_jnt_sat_interface_.enforceLimits(period);
+}
 
 void StingrayHWInterface::write(ros::Duration &elapsed_time){
     //TODO: write position
@@ -30,5 +42,13 @@ void StingrayHWInterface::write(ros::Duration &elapsed_time){
     //for (auto i : waveGenerator){
     //    std::cout<<i<<'\n'; 
     //    }
+    enforceLimits(elapsed_time);
+    if (!control_param_lock_){
+        return;
+    }
+    control_param_lock_=false;
+    //if goal position reached then call waveGenerator
+    //set joint positions and wave - on different threads then wait
+
 }
 
