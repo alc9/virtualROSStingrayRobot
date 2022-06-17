@@ -10,6 +10,7 @@ StingrayHWInterface::StingrayHWInterface(ros::NodeHandle &nh,urdf::Model *urdf_m
     : ros_control_boilerplate::GenericHWInterface(nh,urdf_model)
 {
     nh_=new ros::NodeHandle();
+    this->init();
     initStingrayHWInterface();
     //get joint angle IDs
 }
@@ -20,6 +21,7 @@ StingrayHWInterface::~StingrayHWInterface(){
 
 void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
     //TODO: initialize wave, control, frequency ...
+    ROS_INFO_STREAM("Initializing StingrayHWInterface");
     upwards_=true;
     control_param_lock_=false;
     //get IDs for base joint for each actuator (mimic actuator)
@@ -27,7 +29,7 @@ void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
     std::for_each(jointIdNames.begin(),jointIdNames.end(),[this](std::string& str) mutable{
         auto pos = std::find(this->joint_names_.begin(),this->joint_names_.end(),str);
         if (pos==joint_names_.end()){
-            std::cerr<<boost::format("jointIDName %1% is missing") % 1;
+            std::cerr<<boost::format("jointIDName %1% is missing") % str;
             std::cerr<<"exiting...";
             ros::shutdown();
         }
@@ -57,6 +59,7 @@ void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
     //move to initialize wave position
     //TODO: both right and left/ plus mesh
     writeJointPositionsRight();
+    ROS_INFO_STREAM("StingrayHWInterface initialized");
 }
 
 //Read joint positions, inform if angles met
@@ -75,12 +78,12 @@ void StingrayHWInterface::enforceLimits(ros::Duration& period){
     //enforce position and velocity
     pos_jnt_sat_interface_.enforceLimits(period);
 }
-
+//TODO: error writing joint position
 void StingrayHWInterface::writeJointPositionsRight(){
     //iterate over joint publishers
     for (auto actuatorPubIt=actuator_pubs_right_.begin(); actuatorPubIt!=actuator_pubs_right_.end();actuatorPubIt++){
         joint_angle_msg_right_.data=waveGenerator(f_right_,smooth_time_right_,phaseDif_right_, actuatorPubIt - actuator_pubs_right_.begin());
-        std::cout<<joint_angle_msg_right_.data<<std::endl;
+        std::cout<<"writing joint position: "<<joint_angle_msg_right_.data<<std::endl;
         if (actuatorPubIt==actuator_pubs_right_.begin()){
             upwards_=joint_angle_msg_right_.data>joint_position_[actuator_ids_["R1"]]?true:false;
         }

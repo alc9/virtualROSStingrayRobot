@@ -6,14 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_control.cpp
-stingray_hw_interface.h
-/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.h
-ros/ros.h
--
-ros_control_boilerplate/generic_hw_control_loop.h
--
-
 /home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.cpp
 stingray_hw_interface.h
 /home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.h
@@ -37,10 +29,6 @@ iostream
 -
 algorithm
 -
-
-/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/wave.cpp
-wave.h
-/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/wave.h
 
 /home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/wave.h
 std_msgs/Float64.h
@@ -1377,14 +1365,6 @@ common.h
 /opt/ros/noetic/include/ros/common.h
 ros/forwards.h
 /opt/ros/noetic/include/ros/ros/forwards.h
-
-/opt/ros/noetic/include/ros_control_boilerplate/generic_hw_control_loop.h
-time.h
--
-controller_manager/controller_manager.h
--
-hardware_interface/robot_hw.h
--
 
 /opt/ros/noetic/include/ros_control_boilerplate/generic_hw_interface.h
 ros/ros.h

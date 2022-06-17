@@ -5,6 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   ros_control_boilerplate
+  controller_manager
 )
  find_package(Boost REQUIRED COMPONENTS system)
 #must include empty catkin_package call

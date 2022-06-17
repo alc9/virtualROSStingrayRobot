@@ -1,3 +1,9 @@
+hardware_interface:
+  joints: ["R1_base_link_to_2nd_link"]
+generic_hw_control_loop:
+  loop_hz: 40
+  cycle_time_error_threshold: 1.0
+
 stingray:
   joint_state_controller:
     type: joint_state_controller/JointStateController

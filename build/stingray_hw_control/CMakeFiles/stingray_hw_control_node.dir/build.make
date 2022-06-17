@@ -116,7 +116,6 @@ stingray_hw_control_node_EXTERNAL_OBJECTS =
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /opt/ros/noetic/lib/libcontrol_toolbox.so
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /opt/ros/noetic/lib/libdynamic_reconfigure_config_init_mutex.so
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /opt/ros/noetic/lib/librealtime_tools.so
-/home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /opt/ros/noetic/lib/libcontroller_manager.so
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /opt/ros/noetic/lib/librosparam_shortcuts.so
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /opt/ros/noetic/lib/libtransmission_interface_parser.so
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /opt/ros/noetic/lib/libtransmission_interface_loader.so
@@ -127,6 +126,8 @@ stingray_hw_control_node_EXTERNAL_OBJECTS =
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /usr/lib/x86_64-linux-gnu/liburdfdom_model.so
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /usr/lib/x86_64-linux-gnu/liburdfdom_world.so
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /usr/lib/x86_64-linux-gnu/libtinyxml.so
+/home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /opt/ros/noetic/lib/librosconsole_bridge.so
+/home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /opt/ros/noetic/lib/libcontroller_manager.so
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /opt/ros/noetic/lib/libclass_loader.so
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /usr/lib/x86_64-linux-gnu/libPocoFoundation.so
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /usr/lib/x86_64-linux-gnu/libdl.so
@@ -135,7 +136,6 @@ stingray_hw_control_node_EXTERNAL_OBJECTS =
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /usr/lib/x86_64-linux-gnu/libpython3.8.so
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.71.0
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /usr/lib/x86_64-linux-gnu/libtinyxml2.so
-/home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /opt/ros/noetic/lib/librosconsole_bridge.so
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /opt/ros/noetic/lib/libroscpp.so
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /usr/lib/x86_64-linux-gnu/libpthread.so
 /home/alex/projects/stingRay/virtualStingray/devel/lib/stingray_hw_control/stingray_hw_control_node: /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.71.0

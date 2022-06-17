@@ -29,7 +29,7 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
         ros::NodeHandle* nh_=nullptr;
     public:
         //manage load urdf model via init
-        StingrayHWInterface(ros::NodeHandle &nh,urdf::Model* urdf_model);
+        StingrayHWInterface(ros::NodeHandle &nh,urdf::Model* urdf_model=NULL);
         
         virtual ~StingrayHWInterface();
         
