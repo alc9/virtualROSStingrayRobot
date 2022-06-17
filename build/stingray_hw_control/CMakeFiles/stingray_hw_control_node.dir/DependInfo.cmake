@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/main.cpp" "/home/alex/projects/stingRay/virtualStingray/build/stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.o"
+  "/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_control.cpp" "/home/alex/projects/stingRay/virtualStingray/build/stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/stingray_hw_control.cpp.o"
   "/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/stingray_hw_interface.cpp" "/home/alex/projects/stingRay/virtualStingray/build/stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/stingray_hw_interface.cpp.o"
   "/home/alex/projects/stingRay/virtualStingray/src/stingray_hw_control/src/wave.cpp" "/home/alex/projects/stingRay/virtualStingray/build/stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/wave.cpp.o"
   )

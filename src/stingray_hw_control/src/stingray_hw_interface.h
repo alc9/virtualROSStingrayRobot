@@ -40,8 +40,22 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
 
         virtual void enforceLimits(ros::Duration &period); 
     private:
+
+        /**
+         * @brief Factory for setting initial control params
+         * @param noexcept
+         * @return (void)
+         */
         void initStingrayHWInterface(void) noexcept;
+        /**
+         * @brief Moves actuators on left fin via vector of publishers
+         * @return (void)
+         */
         void writeJointPositionsLeft();
+        /**
+         * @brief Moves actuators on left fin via vector of publishers
+         * @return (void)
+         */
         void writeJointPositionsRight();
         void setControlParams();
         //TODO: pointers to publishers?
@@ -66,8 +80,8 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
         double smooth_time_left_=0.0;
         //right hand side
         //no point redoing everything if f_right_ is approx f_right_prev
-        double f_right_prev_;
         double f_right_;
+        double f_right_prev_;
         double phaseDif_right_;
         double joint_angle_goal_right_;
         //left hand side

@@ -1112,32 +1112,32 @@ controller_manager_msgs_generate_messages_py/fast:
 	cd /home/alex/projects/stingRay/virtualStingray/build && $(MAKE) -f stingray_hw_control/CMakeFiles/controller_manager_msgs_generate_messages_py.dir/build.make stingray_hw_control/CMakeFiles/controller_manager_msgs_generate_messages_py.dir/build
 .PHONY : controller_manager_msgs_generate_messages_py/fast
 
-src/main.o: src/main.cpp.o
+src/stingray_hw_control.o: src/stingray_hw_control.cpp.o
 
-.PHONY : src/main.o
+.PHONY : src/stingray_hw_control.o
 
 # target to build an object file
-src/main.cpp.o:
-	cd /home/alex/projects/stingRay/virtualStingray/build && $(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
+src/stingray_hw_control.cpp.o:
+	cd /home/alex/projects/stingRay/virtualStingray/build && $(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/stingray_hw_control.cpp.o
+.PHONY : src/stingray_hw_control.cpp.o
 
-src/main.i: src/main.cpp.i
+src/stingray_hw_control.i: src/stingray_hw_control.cpp.i
 
-.PHONY : src/main.i
+.PHONY : src/stingray_hw_control.i
 
 # target to preprocess a source file
-src/main.cpp.i:
-	cd /home/alex/projects/stingRay/virtualStingray/build && $(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
+src/stingray_hw_control.cpp.i:
+	cd /home/alex/projects/stingRay/virtualStingray/build && $(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/stingray_hw_control.cpp.i
+.PHONY : src/stingray_hw_control.cpp.i
 
-src/main.s: src/main.cpp.s
+src/stingray_hw_control.s: src/stingray_hw_control.cpp.s
 
-.PHONY : src/main.s
+.PHONY : src/stingray_hw_control.s
 
 # target to generate assembly for a file
-src/main.cpp.s:
-	cd /home/alex/projects/stingRay/virtualStingray/build && $(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
+src/stingray_hw_control.cpp.s:
+	cd /home/alex/projects/stingRay/virtualStingray/build && $(MAKE) -f stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/build.make stingray_hw_control/CMakeFiles/stingray_hw_control_node.dir/src/stingray_hw_control.cpp.s
+.PHONY : src/stingray_hw_control.cpp.s
 
 src/stingray_hw_interface.o: src/stingray_hw_interface.cpp.o
 
@@ -1269,9 +1269,9 @@ help:
 	@echo "... controller_manager_msgs_generate_messages_cpp"
 	@echo "... actionlib_msgs_generate_messages_cpp"
 	@echo "... controller_manager_msgs_generate_messages_py"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... src/stingray_hw_control.o"
+	@echo "... src/stingray_hw_control.i"
+	@echo "... src/stingray_hw_control.s"
 	@echo "... src/stingray_hw_interface.o"
 	@echo "... src/stingray_hw_interface.i"
 	@echo "... src/stingray_hw_interface.s"

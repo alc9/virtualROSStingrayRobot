@@ -51,6 +51,7 @@ void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
     //set states used for producing wave
     upwards_=true;
     f_right_=1.0;
+    f_right_prev_=f_right_;
     smooth_time_right_=0.0;
     phaseDif_right_=f_right_*2*M_PI/(actuator_ids_.size()/2);
     //move to initialize wave position
@@ -68,6 +69,7 @@ void StingrayHWInterface::read(ros::Duration &elapsed_time){
     }
     return;
 }
+
 
 void StingrayHWInterface::enforceLimits(ros::Duration& period){
     //enforce position and velocity
@@ -97,12 +99,10 @@ void StingrayHWInterface::writeJointPositionsLeft(){
     }
 }
 
-//TODO: not implemented for testing purposes
+//This method sets control params,
+// @TODO update for control eqn ; 
 void StingrayHWInterface::setControlParams(){
-    //if: f_right_prev_ is approx == f_right_
-    //f_right_=f_right_prev_
-    //else: remap control params
-    smooth_time_right_=asin(2*M_PI*f_right_prev_*smooth_time_right_)+delay_time_;
+    smooth_time_right_=(asin(2*M_PI*f_right_prev_*smooth_time_right_)/(2*M_PI*f_right_))+delay_time_;
     //time_+=delay_time_;
 }
 
