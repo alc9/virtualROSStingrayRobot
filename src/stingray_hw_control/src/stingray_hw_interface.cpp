@@ -111,6 +111,7 @@ void StingrayHWInterface::setControlParams(){
 }
 
 void StingrayHWInterface::write(ros::Duration &elapsed_time){
+    std::cout<<"write"<<std::endl;
     enforceLimits(elapsed_time);
     //control_param_lock_ == true if reached goal angle
     if (!control_param_lock_){
