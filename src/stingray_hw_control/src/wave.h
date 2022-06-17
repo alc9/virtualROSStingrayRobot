@@ -8,9 +8,10 @@
 #include <std_msgs/Float64.h>
 #include <memory>
 #include <cmath>
+#include <iostream>
 //During periods of control oscillation there is no reason to cache wave
 //position arrays, so instead use a generator
 //typedef boost::coroutines2::coroutine<float> coro_t;
 
 //void waveGenerator(coro_t::push_type& yield, const float& freq, const float& time, const float& phaseDif, const int& actuatorIndex);
-float waveGenerator(const float& freq, const float& time, const float& phaseDif, const int& actuatorIndex);
+double waveGenerator(const double& freq, const double& time, const double& phaseDif, const double& actuatorIndex);
