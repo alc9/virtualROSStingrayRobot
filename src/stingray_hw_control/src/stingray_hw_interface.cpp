@@ -106,6 +106,7 @@ void StingrayHWInterface::writeJointPositionsLeft(){
 // @TODO update for control eqn ; 
 void StingrayHWInterface::setControlParams(){
     smooth_time_right_=(asin(2*M_PI*f_right_prev_*smooth_time_right_)/(2*M_PI*f_right_))+delay_time_;
+    std::cout<<"smooth time is: "<<smooth_time_right_<<std::endl;
     //time_+=delay_time_;
 }
 
