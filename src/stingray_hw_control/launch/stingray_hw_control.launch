@@ -1,20 +1,26 @@
 <launch>
+  <!-- Get URDF model arg-->
+  <arg name="model" default="$(find virtualStingray_description)/urdf/robot_simplified.urdf"/>
+  <!-- Load model onto param server-->
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+  <!-- ns for controller config, controller, spawner and states must be the same-->
+  <group ns="stingray">
+    <!-- Load controller config onto param server-->
     <rosparam file="$(find stingray_hw_control)/config/config.yaml" command="load"/>
-    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="true"
-    output="screen" 
-    args="actuator1"/>
+    <!-- Load hw-->
     <node name="stingray_hw_control_node" pkg="stingray_hw_control" type="stingray_hw_control_node" 
-    respawn="false" output="screen"/>
-<!-- publish to make joints move here-->
+        respawn="false" output="screen"/>
+    <!-- controller spawner must be on same namespace as controller-->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="true"
+    output="screen"
+    args="stingray_controller"/>
+  </group>
+    <!-- publish to make joints move here-->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen" if="false"/>
-<remap from="joint_states/" to="/stingray/joints" />
-
+  <remap from="joint_states/" to="/hardware_interface/joints" />
+  <!--enable rviz gui -->
+  <!-- TODO: set perspective-->
   <arg name="gui" default="true" />
   <arg name="rvizconfig" default="virtualStingray/rviz/urdf.rviz" />
-  <arg name="model" default="$(find virtualStingray_description)/urdf/robot_simplified.urdf"/>
-  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
-  <node if="$(arg gui)" name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
-  <node unless="$(arg gui)" name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
-  <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster"  args="1 0 0 0 0 0 1 /world /map 100"/>
 </launch>

@@ -1,16 +1,25 @@
+#NOTES: 
+#joint_state_controller key contains configuration for the controllers that drivers should use 
+#controller_list contains configuration MoveIt needs to send trajectories to robot driver
+#generic_hw_loop and hardware_interface - keys contain configuration for a ros_control_boilerplate "simulator" setup
+#generic_hw_loop params loaded via - rosparam_shortcuts::get()
+#R1 = right fin: first actuator
 hardware_interface:
-  joints: ["R1_base_link_to_2nd_link"]
+  joints: ["R1_base_link_to_2nd_link", "R1_2nd_link_to_3rd_link"]
+
+#ros_control_boilerplate "simulator setup"
 generic_hw_control_loop:
   loop_hz: 40
   cycle_time_error_threshold: 1.0
-
-stingray:
-  joint_state_controller:
-    type: joint_state_controller/JointStateController
-    publish_rate: 50
+  
 # minimal position interface http://wiki.ros.org/joint_trajectory_controller
-# will add velocity - so joints don't arrive too early for sine wave
-  actuator1:
-    type: position_controller/JointTrajectoryController
-    joint: R1_base_link_to_2nd_link
-
+# will add velocity 
+# one controller per actuator
+#@TODO: (namespace looks fine) The 'joints' parameter is not an array -> controller spawner
+stingray_controller:
+  type: "position_controllers/JointTrajectoryController"
+  #one actuator atm 
+  #joint: "R1_base_link_to_2nd_link"
+  publish_rate: 50
+  cmd_vel_timeout: 0.25
+    #enable_odom_tf: true

@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
+set(NODE_NAME hardware_interface)
 project(stingray_hw_control)
 add_compile_options(-std=c++17)
 find_package(catkin REQUIRED COMPONENTS

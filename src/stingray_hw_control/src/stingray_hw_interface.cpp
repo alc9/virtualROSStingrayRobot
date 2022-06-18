@@ -40,17 +40,17 @@ void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
         }
         });
     //definitiion in config.yaml + .launch
-    actuator_pubs_right_={nh_->advertise<std_msgs::Float64>("/stingray/actuator1/command",0),
-    nh_->advertise<std_msgs::Float64>("/stingray/actuator2/command",0),
-    nh_->advertise<std_msgs::Float64>("/stingray/actuator3/command",0),
-    nh_->advertise<std_msgs::Float64>("/stingray/actuator4/command",0),
-    nh_->advertise<std_msgs::Float64>("/stingray/actuator5/command",0)};
+    actuator_pubs_right_={nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator1/command",0),
+    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator2/command",0),
+    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator3/command",0),
+    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator4/command",0),
+    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator5/command",0)};
 
-    actuator_pubs_left_={nh_->advertise<std_msgs::Float64>("/stingray/actuator6/command",0),
-    nh_->advertise<std_msgs::Float64>("/stingray/actuator7/command",0),
-    nh_->advertise<std_msgs::Float64>("/stingray/actuator8/command",0),
-    nh_->advertise<std_msgs::Float64>("/stingray/actuator9/command",0),
-    nh_->advertise<std_msgs::Float64>("/stingray/actuator10/command",0)};
+    actuator_pubs_left_={nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator6/command",0),
+    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator7/command",0),
+    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator8/command",0),
+    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator9/command",0),
+    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator10/command",0)};
 
     //set states used for producing wave
     upwards_=true;
@@ -59,10 +59,7 @@ void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
     smooth_time_right_=0.0;
 
     //@TODO this will be actuator_ids_.size()/2 when left fin is implemented
-    std::cout<<"act length"<<actuator_ids_.size()<<std::endl;
     phaseDif_right_=f_right_*2.0*M_PI/(actuator_ids_.size());
-    std::cout<<"phase dif initial "<<phaseDif_right_<<std::endl;
-
     //move to initialize wave position
     //TODO: both right and left/ plus mesh
     //@TODO: run after constructed - wait on service controller_manager/load_controller +switch_controller + unload_controller to load actuator1...
@@ -117,13 +114,12 @@ void StingrayHWInterface::writeJointPositionsLeft(){
 // @TODO update for control eqn ; 
 void StingrayHWInterface::setControlParams(){
     smooth_time_right_=(asin(2*M_PI*f_right_prev_*smooth_time_right_)/(2*M_PI*f_right_))+delay_time_;
-    std::cout<<"smooth time is: "<<smooth_time_right_<<std::endl;
+    //std::cout<<"smooth time is: "<<smooth_time_right_<<std::endl;
     //time_+=delay_time_;
 }
 
 void StingrayHWInterface::write(ros::Duration &elapsed_time){
     enforceLimits(elapsed_time);
-    std::cout<<"writecb"<<std::endl;
     //control_param_lock_ == true if reached goal angle
     if (!control_param_lock_){
         //increment time

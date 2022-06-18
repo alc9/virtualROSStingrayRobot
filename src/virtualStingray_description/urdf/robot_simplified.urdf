@@ -2,7 +2,6 @@
   <material name="Cyan">
     <color rgba="0 1.0 1.0 1.0"/>
   </material>
-
   <link name="R1_base_link">
     <visual>
       <origin rpy="0.0 0.0 0.0" xyz="0.02346 0.02242 0.04289"/>
@@ -11,7 +10,9 @@
       </geometry>
     </visual>
   </link>
-  <joint name="R1_base_link_to_2nd_link" type="fixed">
+  <joint name="R1_base_link_to_2nd_link" type="revolute">
+    <!-- random effort and velocity-->
+    <limit effort="1000" velocity="10.0" lower="6.022" upper="0.262"/>
     <parent link="R1_base_link"/>
     <child link="R1_link_2_large"/>
     <limit effort="1000.0" lower="-0.38" upper="0" velocity="0.5"/>
@@ -25,7 +26,8 @@
       </geometry>
     </visual>
   </link>
-  <joint name="R1_2nd_link_to_3rd_link" type="fixed">
+  <joint name="R1_2nd_link_to_3rd_link" type="revolute">
+    <limit effort="1000" velocity="10.0" lower="6.022" upper="0.262"/>
     <parent link="R1_link_2_large"/>
     <child link="R1_link_3_large"/>
     <origin xyz="0.02346 0.02317 0.07020"/>
@@ -39,7 +41,8 @@
       </geometry>
     </visual>
   </link>
-  <joint name="R1_3rd_link_to_4th_link" type="fixed">
+  <joint name="R1_3rd_link_to_4th_link" type="revolute">
+    <limit effort="1000" velocity="10.0" lower="6.022" upper="0.262"/>
     <parent link="R1_link_3_large"/>
     <child link="R1_link_4_small"/>
     <origin xyz="0.02346 0.02317 0.1015"/>
@@ -53,7 +56,8 @@
       </geometry>
     </visual>
   </link>
-  <joint name="R1_4th_link_to_5th_link" type="fixed">
+  <joint name="R1_4th_link_to_5th_link" type="revolute">
+    <limit effort="1000" velocity="10.0" lower="6.022" upper="0.262"/>
     <parent link="R1_link_4_small"/>
     <child link="R1_link_5_small"/>
     <origin xyz="0.02346 0.02317 0.11781"/>
