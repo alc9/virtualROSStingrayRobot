@@ -14,11 +14,14 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
-
+#include <thread>
+#include <rosparam_shortcuts/rosparam_shortcuts.h>
 
 typedef std::unordered_map<std::string,int> ActuatorIds;
-//data class for actuator base links
-//struct ActuatorIds{ unsigned int R1,R2,R3,R4,R5,L1,L2,L3,L4,L5; };
+//control_mode set in yaml (parameter server)
+//id=0 pos only, id=1 pos and wave
+struct ControlMode { unsigned int pos,posWave; };
+
 //Control related functionality: control system eqn, joint motion control and fin wave joint generation
 //@param nh - node handle 
 //@param urdf_model - urdf model for robot
@@ -31,10 +34,9 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
         //manage load urdf model via init
         StingrayHWInterface(ros::NodeHandle &nh,urdf::Model* urdf_model=NULL);
         
-        virtual ~StingrayHWInterface();
-        
+        virtual ~StingrayHWInterface();   
         //Check if goal position is reached, if true then notify write
-        virtual void read(ros::Duration &elapsed_time);
+        virtual void read(ros::Duration &elapsed_time){}
 
         virtual void write(ros::Duration &elapsed_time);
 
@@ -47,47 +49,27 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
          * @return (void)
          */
         void initStingrayHWInterface(void) noexcept;
-        /**
-         * @brief Moves actuators on left fin via vector of publishers
-         * @return (void)
-         */
-        void writeJointPositionsLeft();
-        /**
-         * @brief Moves actuators on left fin via vector of publishers
-         * @return (void)
-         */
-        void writeJointPositionsRight();
-        void setControlParams();
-        //TODO: pointers to publishers?
-        std::array<ros::Publisher,5> actuator_pubs_right_;
-        std::array<ros::Publisher,5> actuator_pubs_left_;
-        //used for assigning double values
-        //two copies to avoid race condition
-        std_msgs::Float64 joint_angle_msg_left_;
-        std_msgs::Float64 joint_angle_msg_right_;
+        void setWaveLeft();
+        void setWaveRight();
+        //threads for making membrane - left and right fins
+        std::thread * thread_left_fin_= nullptr;
+        std::thread * thread_right_fin_= nullptr;
+        //map of actuatorID and name
         ActuatorIds actuator_ids_;
-        //current goal for joint angle
-        double joint_angle_goal_;
-        //joints are increasing to goal angle - +ve frequency = upwards
-        bool upwards_;
         //limit write to control_param_lock_ for subscribers
         bool control_param_lock_;
-        
         //delay between adjusting control parameters
         double delay_time_=0.005;
         //smooth transition time adjustment
         double smooth_time_right_=0.0;
         double smooth_time_left_=0.0;
-        //right hand side
-        //no point redoing everything if f_right_ is approx f_right_prev
+        //right hand time
         double f_right_;
-        double f_right_prev_;
         double phaseDif_right_;
-        double joint_angle_goal_right_;
         //left hand side
         double f_left_prev_;
         double f_left_;
         double phaseDif_left_;
-        double joint_angle_goal_left_;
-
+        //parameter server values
+        unsigned int control_mode_;
 };

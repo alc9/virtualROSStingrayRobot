@@ -1,3 +1,3 @@
 This project is an extension to ROSStingrayRobot. The goal of the project is to
-move ROSStingrayRobot into a ROS gazebo simulation. This project is a work in
+move ROSStingrayRobot into a ROS gazebo simulation. Using ros_genericHW_interface control is paused whilst wave meshes are updated. This project is a work in
 process...

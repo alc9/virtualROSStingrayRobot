@@ -17,6 +17,14 @@ StingrayHWInterface::StingrayHWInterface(ros::NodeHandle &nh,urdf::Model *urdf_m
 
 StingrayHWInterface::~StingrayHWInterface(){
     delete nh_;
+    if(thread_left_fin_->joinable()){
+        thread_left_fin_->join();
+    }
+    if(thread_right_fin_->joinable()){
+        thread_right_fin_->join();        
+    }
+    delete thread_left_fin_;
+    delete thread_right_fin_;
 }
 
 void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
@@ -24,9 +32,12 @@ void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
     //@TODO: add some error handling
     // https://rules.sonarsource.com/cpp/tag/bad-practice/RSPEC-3743
     ROS_INFO_STREAM("Initializing StingrayHWInterface");
-    upwards_=true;
     control_param_lock_=false;
+    std::size_t error=0;
+    //TODO: set control_mode
+    //error+=rosparam_shortcuts::get(name_)
     //get IDs for base joint for each actuator (mimic actuator)
+    //will need this for calculating left/right membranes
     auto jointIdNames=std::array<std::string,1>{"R1_base_link_to_2nd_link"}; //"L1_base_link_to_2nd_link"
     std::for_each(jointIdNames.begin(),jointIdNames.end(),[this](std::string& str) mutable{
         auto pos = std::find(this->joint_names_.begin(),this->joint_names_.end(),str);
@@ -39,52 +50,22 @@ void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
             actuator_ids_[str.substr(0,2)]=pos-joint_names_.begin();
         }
         });
-    //definitiion in config.yaml + .launch
-    actuator_pubs_right_={nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator1/command",0),
-    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator2/command",0),
-    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator3/command",0),
-    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator4/command",0),
-    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator5/command",0)};
 
-    actuator_pubs_left_={nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator6/command",0),
-    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator7/command",0),
-    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator8/command",0),
-    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator9/command",0),
-    nh_->advertise<std_msgs::Float64>("/hardware_interface/actuator10/command",0)};
-
-    //set states used for producing wave
-    upwards_=true;
-    f_right_=1.0;
-    f_right_prev_=f_right_;
-    smooth_time_right_=0.0;
+    f_left_=1.4;
+    f_right_=1.4;
 
     //@TODO this will be actuator_ids_.size()/2 when left fin is implemented
     phaseDif_right_=f_right_*2.0*M_PI/(actuator_ids_.size());
-    //move to initialize wave position
-    //TODO: both right and left/ plus mesh
-    //@TODO: run after constructed - wait on service controller_manager/load_controller +switch_controller + unload_controller to load actuator1...
-    writeJointPositionsRight();
+    phaseDif_left_=phaseDif_right_;
     ROS_INFO_STREAM("StingrayHWInterface initialized");
 }
-
-//Read joint positions, inform if angles met
-void StingrayHWInterface::read(ros::Duration &elapsed_time){
-    //goal reached -> what frequency, position and velocity
-    //read registers import subscribed parameters
-    //this has to be the case for all actuators
-    if (((joint_position_[actuator_ids_["R1"]]>=joint_angle_goal_*0.99) ^ upwards_)){
-        //lock access to control params from subscribers
-        control_param_lock_=true;
-    }
-    return;
-}
-
 
 void StingrayHWInterface::enforceLimits(ros::Duration& period){
     //enforce position and velocity
     pos_jnt_sat_interface_.enforceLimits(period);
 }
-//TODO: error writing joint position
+
+/*
 void StingrayHWInterface::writeJointPositionsRight(){
     //iterate over joint publishers
     for (auto actuatorPubIt=actuator_pubs_right_.begin(); actuatorPubIt!=actuator_pubs_right_.end();actuatorPubIt++){
@@ -117,22 +98,20 @@ void StingrayHWInterface::setControlParams(){
     //std::cout<<"smooth time is: "<<smooth_time_right_<<std::endl;
     //time_+=delay_time_;
 }
+*/
 
+/**
+ * @brief Write joint positions and set membrane (left and right waves)
+ * @param elapsed_time
+ * @return (void)
+ */
 void StingrayHWInterface::write(ros::Duration &elapsed_time){
     enforceLimits(elapsed_time);
-    //control_param_lock_ == true if reached goal angle
-    if (!control_param_lock_){
-        //increment time
-        return;
-    }
-    //actuator has reached goal angle
-    setControlParams();
-    //TODO: set joint positions and wave - on different threads then wait
-    //TODO: e.g threads(meshFinLeft,meshFinRight) then threads(writeJointPositionsLeft,writeJointPositionsRight)
-    writeJointPositionsRight();
-    control_param_lock_=false;
-    //if goal position reached then call waveGenerator
-    //set joint positions and wave - on different threads then wait
+    //update joints and waves
+    for (std::size_t joint_id = 0; joint_id < num_joints_; ++joint_id){
+        //simple jointTrajectorycontroller -> only position atm
+        joint_position_[joint_id] += joint_position_command_[joint_id];  
 
+    }
 }
 

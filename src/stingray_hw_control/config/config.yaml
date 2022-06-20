@@ -5,21 +5,24 @@
 #generic_hw_loop params loaded via - rosparam_shortcuts::get()
 #R1 = right fin: first actuator
 hardware_interface:
-  joints: ["R1_base_link_to_2nd_link", "R1_2nd_link_to_3rd_link"]
+  joints:
+    - R1_base_link_to_2nd_link
+    - R1_2nd_link_to_3rd_link
+  control_mode: 0 #0: only pos, 1: pos and wave membrane
 
-#ros_control_boilerplate "simulator setup"
+#generic control loop params
 generic_hw_control_loop:
   loop_hz: 40
   cycle_time_error_threshold: 1.0
   
-# minimal position interface http://wiki.ros.org/joint_trajectory_controller
-# will add velocity 
-# one controller per actuator
-#@TODO: (namespace looks fine) The 'joints' parameter is not an array -> controller spawner
+# http://wiki.ros.org/joint_trajectory_controller
+#Group Position Controller
+#send a MultiArray message to control each joint
 stingray_controller:
   type: "position_controllers/JointTrajectoryController"
-  #one actuator atm 
-  #joint: "R1_base_link_to_2nd_link"
+  joints: 
+    - R1_base_link_to_2nd_link
+    - R1_2nd_link_to_3rd_link
   publish_rate: 50
   cmd_vel_timeout: 0.25
     #enable_odom_tf: true
