@@ -9,14 +9,14 @@
 StingrayHWInterface::StingrayHWInterface(ros::NodeHandle &nh,urdf::Model *urdf_model)
     : ros_control_boilerplate::GenericHWInterface(nh,urdf_model)
 {
-    nh_=new ros::NodeHandle();
+    //nh_=new ros::NodeHandle();
     this->init();
     initStingrayHWInterface();
     //get joint angle IDs
 }
 
 StingrayHWInterface::~StingrayHWInterface(){
-    delete nh_;
+    //delete nh_;
     if(thread_left_fin_->joinable()){
         thread_left_fin_->join();
     }
@@ -35,7 +35,12 @@ void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
     control_param_lock_=false;
     std::size_t error=0;
     //TODO: set control_mode
-    //error+=rosparam_shortcuts::get(name_)
+    error+=rosparam_shortcuts::get(name_,nh_,"control_mode", control_mode_);
+    if (error){
+    ROS_WARN_STREAM_NAMED(name_, "require control_mode to be set");
+    ROS_WARN_STREAM_NAMED(name_, "  0: only pos, 1: pos and wave membrane");
+  }
+  rosparam_shortcuts::shutdownIfError(name_, error);
     //get IDs for base joint for each actuator (mimic actuator)
     //will need this for calculating left/right membranes
     auto jointIdNames=std::array<std::string,1>{"R1_base_link_to_2nd_link"}; //"L1_base_link_to_2nd_link"

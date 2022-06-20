@@ -29,7 +29,7 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
         StingrayHWInterface(const StingrayHWInterface& s) = delete;
         auto operator=(const StingrayHWInterface& s)->StingrayHWInterface& = delete;
     protected:
-        ros::NodeHandle* nh_=nullptr;
+        //ros::NodeHandle* nh_=nullptr;
     public:
         //manage load urdf model via init
         StingrayHWInterface(ros::NodeHandle &nh,urdf::Model* urdf_model=NULL);
@@ -70,6 +70,7 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
         double f_left_prev_;
         double f_left_;
         double phaseDif_left_;
-        //parameter server values
-        unsigned int control_mode_;
+        protected:
+            //parameter server values
+            int control_mode_;
 };
