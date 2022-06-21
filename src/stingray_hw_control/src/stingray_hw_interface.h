@@ -1,7 +1,7 @@
 /*
 * Filename: stingray_hw_interface.h
-* Description: provides an interface which loads URDF, performs control based
-* on required waveform, sets joint positions
+* Description: ROS hardware interface provides an interface which loads URDF, 
+* sets joint positions and wave mesh
 * Author: Alex Cunningham
 * Start date: 13/6/2022
 */

@@ -1,6 +1,5 @@
 /*
 * Filename: stingray_hw_interface.cpp
-* Description: load URDF, perform control
 * Author: Alex Cunningham
 * Start date: 14/06/2022
 */
