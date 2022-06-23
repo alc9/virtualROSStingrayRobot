@@ -34,7 +34,7 @@ void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
     control_param_lock_=false;
     std::size_t error=0;
     //TODO: set control_mode
-    error+=rosparam_shortcuts::get(name_,nh_,"control_mode", control_mode_);
+    error+=rosparam_shortcuts::get("wave_model",nh_,"robot_fin_controller_mode", control_mode_);
     if (error){
     ROS_WARN_STREAM_NAMED(name_, "require control_mode to be set");
     ROS_WARN_STREAM_NAMED(name_, "  0: only pos, 1: pos and wave membrane");
