@@ -28,8 +28,9 @@ stingray_controller:
   cmd_vel_timeout: 0.25
 
 wave_model:
-  #advertise_left: " "
-  advertise_right: " "
+  #joints_left_server: " "
+  right_fin: True
+  action_server_endpoint: ""
   # 0: only pos, 1: pos and wave membrane
   robot_fin_controller_mode: 0
   #0: one frequency mode, 1: goal position mode
