@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
 #must include empty catkin_package call
 catkin_package()
 include_directories(${catkin_INCLUDE_DIRS})
-set(SOURCES src/stingray_hw_interface.cpp src/wave.cpp src/stingray_hw_control.cpp)
+set(SOURCES src/stingray_hw_interface.cpp src/wave.cpp src/stingray_hw_control.cpp src/robot_fin_state.cpp)
 add_executable(${PROJECT_NAME}_node ${SOURCES})
 
 add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

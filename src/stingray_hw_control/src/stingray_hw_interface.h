@@ -7,6 +7,7 @@
 */
 #pragma once
 #include <ros_control_boilerplate/generic_hw_interface.h>
+#include <ros/ros.h>
 #include <array>
 #include <std_msgs/Float64.h>
 #include <unordered_map>
@@ -16,6 +17,7 @@
 #include <algorithm>
 #include <thread>
 #include <rosparam_shortcuts/rosparam_shortcuts.h>
+#include <tuple>
 
 typedef std::unordered_map<std::string,int> ActuatorIds;
 //control_mode set in yaml (parameter server)
@@ -29,6 +31,7 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
         StingrayHWInterface(const StingrayHWInterface& s) = delete;
         auto operator=(const StingrayHWInterface& s)->StingrayHWInterface& = delete;
     protected:
+        int control_mode_;
         //ros::NodeHandle* nh_=nullptr;
     public:
         //manage load urdf model via init
@@ -70,7 +73,4 @@ class StingrayHWInterface : public ros_control_boilerplate::GenericHWInterface{
         double f_left_prev_;
         double f_left_;
         double phaseDif_left_;
-        protected:
-            //parameter server values
-            int control_mode_;
 };
