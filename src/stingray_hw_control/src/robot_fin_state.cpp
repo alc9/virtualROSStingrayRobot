@@ -36,18 +36,30 @@ RobotFinState::RobotFinState(const ros::NodeHandle &nh):
     freq_right_=1.4;
     //check format of joint messages -> right,right,right,left,left,left or mirrored
     std::string format_check_str= std::accumulate(joints.begin(),joints.end(),std::string(" "));
-    //check pattern against regular expression
-    if (!std::regex_match(format_check_str,std::regex("(^[L]|^[R])[^\s]{1,}(\s|$)(\1[^\s]{0,}\s){0,}(([L|R])[^\s]{1,}(\s|$)|$)((([\5][^\s]{1,}(\s|$)){1,})|$)$"))){
+    //check pattern against regular expression - enforce yaml format for hardware_interface joints
+    if (!std::regex_match(format_check_str,std::regex("(^[L]|^[R])[^\\s]{1,}(\\s|$)(\1[^\\s]{0,}\\s){0,}(([L|R])[^\\s]{1,}(\\s|$)|$)((([\5][^\\s]{1,}(\\s|$)){1,})|$)$"))){
         ROS_ERROR_STREAM("incorrect parameter format - should be a series of right joints followed by a series of left joints indicated by first letter L or R");
         rosparam_shortcuts::shutdownIfError(name_,true);
     }
     //check is_stride_left, if true then applying stide means joint names ordered [rightfinJoints,leftfinJoints]
-    
+    is_stride_left_=(char)format_check_str[0]=='R'?true:false;
+    //determine stride
+    auto tmp_stride_=std::find_if(joints.end(),joints.begin(),[this](const std::string& str){
+        if(str[0]==is_stride_left_?'L':'R'){
+            return true;
+        }
+        return false;
+    });
+    if (tmp_stride_!=joints.end()){
+        stride_ = new int(std::distance(joints.end(),tmp_stride_));
+        //stride_=&std::distance(joints.end(),tmp_stride_);
+    }
     //joint_names_=joints;
     //action_goal_msg_.path_tolerance=
 }
 RobotFinState::~RobotFinState(){
     delete action_client_fins_;
+    delete stride_;
 }
 void RobotFinState::setPhaseDifference(){
     phase_diff_right_=freq_right_*2.0*M_PI/(action_goal_msg_.trajectory.joint_names.size()/2);
@@ -56,11 +68,11 @@ void RobotFinState::setPhaseDifference(){
 
 void RobotFinState::read(){}
 
-double RobotFinState::waveGeneratorFactory(const std::string& jointPattern,int index){
-    if (jointPattern.rfind("R",0==0)){
+double RobotFinState::waveGeneratorFactory(int index){
+    if (index<*stride_){
         return(waveGenerator(freq_right_,smooth_time_right_,phase_diff_right_,index));
     }
-    else if (jointPattern.rfind("L",0)==0){
+    else if (index>*stride_){
         return(waveGenerator(freq_left_,smooth_time_right_,phase_diff_left_,index));
     }
     ROS_ERROR_STREAM("Error in config.yaml, should start with either R or L");
@@ -68,10 +80,12 @@ double RobotFinState::waveGeneratorFactory(const std::string& jointPattern,int i
 }
 
 void RobotFinState::setActionGoalMsg(){
-    for (size_t joint=0; joint!=action_goal_msg_.trajectory.joint_names.size(); joint++){
+    if (stride_){
+        for (size_t joint=0; joint!=action_goal_msg_.trajectory.joint_names.size(); joint++){
             //fill JointTrajectoryPointMSG
             //want to go over a couple of points
-            action_goal_msg_.trajectory.points[joint].positions[0]=this->waveGeneratorFactory(action_goal_msg_.trajectory.joint_names[joint],static_cast<int> (joint));
+            action_goal_msg_.trajectory.points[joint].positions[0]=this->waveGeneratorFactory(static_cast<int> (joint));
+        }
     }
 }
 

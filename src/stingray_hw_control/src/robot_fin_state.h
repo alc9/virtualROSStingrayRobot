@@ -19,6 +19,8 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <numeric>
+#include <regex>
 //0=frequency mode(no control), 1=goal navigation mode(perform control)
 enum CONTROLMODE { frequency, goal };   
 
@@ -47,10 +49,10 @@ namespace wave_model{
                 const std::string name_;
                 int control_mode_;
             private:
-                double waveGeneratorFactory(const std::string& jointPattern, int index);
+                double waveGeneratorFactory(int index);
                 void setActionGoalMsg();
                 void setPhaseDifference();
-                const int * const stride_=nullptr;
+                const int * stride_=nullptr;
                 bool is_stride_left_;
                 double freq_left_;
                 double freq_right_;
