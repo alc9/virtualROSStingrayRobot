@@ -8,6 +8,8 @@ hardware_interface:
   joints:
     - R1_base_link_to_2nd_link
     - R1_2nd_link_to_3rd_link
+    - L1_2nd_link
+    - L1_3rd_link
   control_mode: 0 #0: only pos, 1: pos and wave membrane
 
 #generic control loop params

@@ -18,6 +18,7 @@
 //std
 #include <vector>
 #include <string>
+#include <algorithm>
 //0=frequency mode(no control), 1=goal navigation mode(perform control)
 enum CONTROLMODE { frequency, goal };   
 
@@ -49,6 +50,8 @@ namespace wave_model{
                 double waveGeneratorFactory(const std::string& jointPattern, int index);
                 void setActionGoalMsg();
                 void setPhaseDifference();
+                const int * const stride_=nullptr;
+                bool is_stride_left_;
                 double freq_left_;
                 double freq_right_;
                 //@TODO: add change smooth_time changes

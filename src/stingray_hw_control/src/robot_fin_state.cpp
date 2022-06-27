@@ -14,23 +14,35 @@ RobotFinState::RobotFinState(const ros::NodeHandle &nh):
             rosparam_shortcuts::shutdownIfError(name_,true);
     }
     std::string endPoint;
-    if ((!rosparam_shortcuts::get("wave_model",nh_,"right_fin",endPoint))){
+    if ((!rosparam_shortcuts::get("wave_model",nh_,"action_server_endpoint",endPoint))){
             ROS_ERROR_STREAM("Action server namespace must be provided");
             rosparam_shortcuts::shutdownIfError(name_,true);
     }
     action_client_fins_ = new actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>(nh_,endPoint,false);
     action_client_fins_->waitForServer();
     ROS_INFO_STREAM("Server is up for RobotFinState action client");
-    
+
+    //get joint names used in action.goal 
     std::vector<std::string> joints;
+    //rosparams serve joints on left or right - whether or not this is performed is determined in 
+    //robot_fin_controller via param=right_fin/left_fin
     if ((!rosparam_shortcuts::get("hardware_interface",nh_,"joints",joints))){
             ROS_ERROR_STREAM("Action server namespace must be provided");
             rosparam_shortcuts::shutdownIfError(name_,true);
     }
-    //set base types for action_goal_msg
+    //set base types for action_goal.msg
     action_goal_msg_.trajectory.joint_names=joints;
     freq_left_=1.4;
     freq_right_=1.4;
+    //check format of joint messages -> right,right,right,left,left,left or mirrored
+    std::string format_check_str= std::accumulate(joints.begin(),joints.end(),std::string(" "));
+    //check pattern against regular expression
+    if (!std::regex_match(format_check_str,std::regex("(^[L]|^[R])[^\s]{1,}(\s|$)(\1[^\s]{0,}\s){0,}(([L|R])[^\s]{1,}(\s|$)|$)((([\5][^\s]{1,}(\s|$)){1,})|$)$"))){
+        ROS_ERROR_STREAM("incorrect parameter format - should be a series of right joints followed by a series of left joints indicated by first letter L or R");
+        rosparam_shortcuts::shutdownIfError(name_,true);
+    }
+    //check is_stride_left, if true then applying stide means joint names ordered [rightfinJoints,leftfinJoints]
+    
     //joint_names_=joints;
     //action_goal_msg_.path_tolerance=
 }
@@ -43,6 +55,7 @@ void RobotFinState::setPhaseDifference(){
 }
 
 void RobotFinState::read(){}
+
 double RobotFinState::waveGeneratorFactory(const std::string& jointPattern,int index){
     if (jointPattern.rfind("R",0==0)){
         return(waveGenerator(freq_right_,smooth_time_right_,phase_diff_right_,index));
@@ -53,6 +66,7 @@ double RobotFinState::waveGeneratorFactory(const std::string& jointPattern,int i
     ROS_ERROR_STREAM("Error in config.yaml, should start with either R or L");
     throw;
 }
+
 void RobotFinState::setActionGoalMsg(){
     for (size_t joint=0; joint!=action_goal_msg_.trajectory.joint_names.size(); joint++){
             //fill JointTrajectoryPointMSG
@@ -60,6 +74,7 @@ void RobotFinState::setActionGoalMsg(){
             action_goal_msg_.trajectory.points[joint].positions[0]=this->waveGeneratorFactory(action_goal_msg_.trajectory.joint_names[joint],static_cast<int> (joint));
     }
 }
+
 void RobotFinState::write(){
     //write message to control joints
     this->setActionGoalMsg();
