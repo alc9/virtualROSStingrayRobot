@@ -1,0 +1,20 @@
+<launch>
+
+  <!-- GDB functionality -->
+  <arg name="debug" default="false" />
+  <arg unless="$(arg debug)" name="launch_prefix" value="" />
+  <arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
+
+  <group ns="stingray">
+
+    <!-- Load hardware interface -->
+    <node name="stingray_hw_control_node" pkg="stingray_hw_control"
+    type="hardware_interface_node"
+          output="screen" launch-prefix="$(arg launch_prefix)">
+      <param name="trajectory_controller" value="position_trajectory_controller"/>
+      <rosparam file="$(find stingray_hw_control)/config/config/config.yaml" command="load"/>
+    </node>
+
+  </group>
+
+</launch>
