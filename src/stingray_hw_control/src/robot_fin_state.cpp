@@ -69,24 +69,38 @@ void RobotFinState::setPhaseDifference(){
 void RobotFinState::read(){}
 
 double RobotFinState::waveGeneratorFactory(int index){
-    if (index<*stride_){
-        return(waveGenerator(freq_right_,smooth_time_right_,phase_diff_right_,index));
+    //stride indicates whether writing to left of right fin joint
+    //is_stride_left_ indicates order given in yaml file [left_joints,right_joints] or [right_joints,left_joints]
+    if (stride_){
+        if (index<*stride_ && is_stride_left_){
+            return(waveGenerator(freq_right_,smooth_time_right_,phase_diff_right_,index));
+        }
+        else if (index>*stride_ && is_stride_left_){
+            return(waveGenerator(freq_left_,smooth_time_right_,phase_diff_left_,index));
+        }
+        else if (index<*stride_){
+            return(waveGenerator(freq_left_,smooth_time_right_,phase_diff_left_,index));
+        }
+        else if (index>*stride_){
+            return(waveGenerator(freq_right_,smooth_time_right_,phase_diff_right_,index));
+        }
     }
-    else if (index>*stride_){
-        return(waveGenerator(freq_left_,smooth_time_right_,phase_diff_left_,index));
+    else{
+        if (is_stride_left_){
+            return(waveGenerator(freq_right_,smooth_time_right_,phase_diff_right_,index));
+        }
+        return(waveGenerator(freq_left_,smooth_time_left_,phase_diff_left_,index));
     }
     ROS_ERROR_STREAM("Error in config.yaml, should start with either R or L");
     throw;
 }
 
 void RobotFinState::setActionGoalMsg(){
-    if (stride_){
         for (size_t joint=0; joint!=action_goal_msg_.trajectory.joint_names.size(); joint++){
             //fill JointTrajectoryPointMSG
             //want to go over a couple of points
             action_goal_msg_.trajectory.points[joint].positions[0]=this->waveGeneratorFactory(static_cast<int> (joint));
         }
-    }
 }
 
 void RobotFinState::write(){
