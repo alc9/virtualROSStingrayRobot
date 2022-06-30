@@ -9,17 +9,22 @@
     <!-- Load controller config onto param server-->
     <rosparam file="$(find stingray_hw_control)/config/config.yaml" command="load"/>
     <!-- Load hw-->
-    <node name="stingray_hw_control_node" pkg="stingray_hw_control" type="hardware_interface_node" 
+    <node name="stingray_hw_control_node" pkg="stingray_hw_control" type="stingray_hw_control_node" 
         respawn="false" output="screen"/>
     <!-- controller spawner must be on same namespace as controller-->
     <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="true" output="screen" args="joint_trajectory_controller"/> -->
+    <!--
     <node name="ros_control_controller_manager" pkg="controller_manager" type="controller_manager" respawn="false"
 	  output="screen" args="spawn joint_state_controller position_trajectory_controller" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
-  </group>
+    -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="true"
+    output="screen"
+    args="stingray_controller"/>
+    </group>
     <!-- publish to make joints move here-->
-  <!--<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen" if="false"/>
-  <remap from="joint_states/" to="/hardware_interface/joints" /> -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen" if="false"/>
+  <remap from="joint_states/" to="/hardware_interface/joints" />
   <!--enable rviz gui -->
   <!-- TODO: set perspective-->
   <arg name="gui" default="true" />

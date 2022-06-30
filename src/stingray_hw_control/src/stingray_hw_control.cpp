@@ -15,7 +15,8 @@ int main(int argc,char** argv){
     //need parent name for accessing param server
     ros::init(argc,argv,"hardware_interface");
     ros::NodeHandle nh;
-    
+    ros::AsyncSpinner spinner(2);
+    spinner.start();
     //std::shared_ptr<urdf::Model> urdfModel (new urdf::Model());
     std::shared_ptr<StingrayHWInterface> interface (new StingrayHWInterface(nh));
     ros_control_boilerplate::GenericHWControlLoop control_loop(nh,interface);
@@ -23,8 +24,6 @@ int main(int argc,char** argv){
     wave_model::RobotFinState waveModel = wave_model::RobotFinState(nh);
     //run waveModel loop
     waveModel.run();
-    ros::AsyncSpinner spinner(1);
-    spinner.start();
     //ros::waitForShutdown();
     control_loop.run();
     //setup robot_fin_controller

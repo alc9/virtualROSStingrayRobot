@@ -10,16 +10,20 @@ namespace wave_model
 RobotFinState::RobotFinState(const ros::NodeHandle &nh):
     name_("robot_fin_state"),nh_(nh)
 {
-    if (!rosparam_shortcuts::get("wave_model",nh_,"robot_fin_state_mode",control_mode_)){
+    ROS_INFO_STREAM("Initializing RobotFinState");
+    std::string name{"wave_model"};
+    ros::NodeHandle rpnh(nh_,name);
+    if (!rosparam_shortcuts::get(name,rpnh,"robot_fin_state_mode",control_mode_)){
             rosparam_shortcuts::shutdownIfError(name_,true);
     }
     std::string endPoint;
-    if ((!rosparam_shortcuts::get("wave_model",nh_,"action_server_endpoint",endPoint))){
+    if ((!rosparam_shortcuts::get(name,rpnh,"action_server_endpoint",endPoint))){
             ROS_ERROR_STREAM("Action server namespace must be provided");
             rosparam_shortcuts::shutdownIfError(name_,true);
     }
     //@TODO: this class is configurable depending on .yaml file -> might be better to develop a factory that uses a builder 
     action_client_fins_ = new actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>(nh_,endPoint,false);
+    ROS_INFO_STREAM("Waiting on action server on topic "<<endPoint);
     action_client_fins_->waitForServer();
     ROS_INFO_STREAM("Server is up for RobotFinState action client");
 
@@ -108,7 +112,9 @@ void RobotFinState::write(){
     //write message to control joints
     this->setActionGoalMsg();
     action_client_fins_->sendGoal(action_goal_msg_, boost::bind(&RobotFinState::doneCb,this,_1));
+    ROS_INFO_STREAM("sending goal to action server");
     action_client_fins_->waitForResult();
+    ROS_INFO_STREAM("result received ");
 }
 void RobotFinState::doneCb(const actionlib::SimpleClientGoalState &state){
     clientGoalState=state.state_;

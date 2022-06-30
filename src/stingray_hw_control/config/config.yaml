@@ -8,9 +8,6 @@ hardware_interface:
   joints:
     - R1_base_link_to_2nd_link
     - R1_2nd_link_to_3rd_link
-    - L1_2nd_link
-    - L1_3rd_link
-  control_mode: 0 #0: only pos, 1: pos and wave membrane
 
 #generic control loop params
 generic_hw_control_loop:
@@ -21,18 +18,18 @@ generic_hw_control_loop:
 #Group Position Controller
 #send a MultiArray message to control each joint
 # velocity/position interface
-stingray_controller:
-  type: "position_controllers/JointTrajectoryController"
-  joints: 
-    - R1_base_link_to_2nd_link
-    - R1_2nd_link_to_3rd_link
-  state_publish_rate: 50
-  cmd_vel_timeout: 0.25
+stingray:
+  stingray_controller:
+    type: "position_controllers/JointTrajectoryController"
+    joints: 
+      - R1_base_link_to_2nd_link
+      - R1_2nd_link_to_3rd_link
+    state_publish_rate: 50
+    cmd_vel_timeout: 0.25
 
 wave_model:
-  #joints_left_server: " "
   right_fin: True
-  action_server_endpoint: ""
+  action_server_endpoint: "/stingray/stingray_controller/"
   # 0: only pos, 1: pos and wave membrane
   robot_fin_controller_mode: 0
   #0: one frequency mode, 1: goal position mode

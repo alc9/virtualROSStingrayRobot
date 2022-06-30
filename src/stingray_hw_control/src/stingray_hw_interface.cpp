@@ -32,14 +32,14 @@ void StingrayHWInterface::initStingrayHWInterface(void) noexcept{
     // https://rules.sonarsource.com/cpp/tag/bad-practice/RSPEC-3743
     ROS_INFO_STREAM("Initializing StingrayHWInterface");
     control_param_lock_=false;
-    std::size_t error=0;
     //TODO: set control_mode
-    error+=rosparam_shortcuts::get("wave_model",nh_,"robot_fin_controller_mode", control_mode_);
-    if (error){
-    ROS_WARN_STREAM_NAMED(name_, "require control_mode to be set");
-    ROS_WARN_STREAM_NAMED(name_, "  0: only pos, 1: pos and wave membrane");
+    std::string name{"wave_model"};
+    ros::NodeHandle rpnh(nh_,name);
+    std::cout<<control_mode_;
+    if (!rosparam_shortcuts::get(name,rpnh,"robot_fin_controller_mode", control_mode_)){
+    ROS_WARN_STREAM_NAMED(name_, "require control_mode to be set 0: only pos, 1: pos and wave membrane");
+    rosparam_shortcuts::shutdownIfError(name_, true);
   }
-  rosparam_shortcuts::shutdownIfError(name_, error);
     //get IDs for base joint for each actuator (mimic actuator)
     //will need this for calculating left/right membranes
     auto jointIdNames=std::array<std::string,1>{"R1_base_link_to_2nd_link"}; //"L1_base_link_to_2nd_link"
