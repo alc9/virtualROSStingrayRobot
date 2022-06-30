@@ -20,9 +20,9 @@ int main(int argc,char** argv){
     std::shared_ptr<StingrayHWInterface> interface (new StingrayHWInterface(nh));
     ros_control_boilerplate::GenericHWControlLoop control_loop(nh,interface);
     //@TODO: just for testing -> will be wrapped in robot_fin_controller for management
-    auto waveModel (wave_model::RobotFinState(nh));
+    wave_model::RobotFinState waveModel = wave_model::RobotFinState(nh);
     //run waveModel loop
-    
+    waveModel.run();
     ros::AsyncSpinner spinner(1);
     spinner.start();
     //ros::waitForShutdown();

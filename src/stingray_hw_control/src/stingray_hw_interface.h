@@ -23,6 +23,7 @@ typedef std::unordered_map<std::string,int> ActuatorIds;
 //control_mode set in yaml (parameter server)
 //id=0 pos only, id=1 pos and wave
 struct ControlMode { unsigned int pos,posWave; };
+//@TODO: this is a test prototype - builder will be provided to handle different scenarios -> LR, L, R, +control_loop
 
 //Control related functionality: control system eqn, joint motion control and fin wave joint generation
 //@param nh - node handle 

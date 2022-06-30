@@ -18,6 +18,7 @@ RobotFinState::RobotFinState(const ros::NodeHandle &nh):
             ROS_ERROR_STREAM("Action server namespace must be provided");
             rosparam_shortcuts::shutdownIfError(name_,true);
     }
+    //@TODO: this class is configurable depending on .yaml file -> might be better to develop a factory that uses a builder 
     action_client_fins_ = new actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>(nh_,endPoint,false);
     action_client_fins_->waitForServer();
     ROS_INFO_STREAM("Server is up for RobotFinState action client");
@@ -106,11 +107,37 @@ void RobotFinState::setActionGoalMsg(){
 void RobotFinState::write(){
     //write message to control joints
     this->setActionGoalMsg();
-    action_client_fins_->sendGoal(action_goal_msg_);
+    action_client_fins_->sendGoal(action_goal_msg_, boost::bind(&RobotFinState::doneCb,this,_1));
+    action_client_fins_->waitForResult();
+}
+void RobotFinState::doneCb(const actionlib::SimpleClientGoalState &state){
+    clientGoalState=state.state_;
+}
+
+bool RobotFinState::shouldCancelRun(){
+    //if server disconnected then try to connect
+    action_client_fins_->waitForServer(ros::Duration(10));
+    if (action_client_fins_->isServerConnected()){
+        ROS_INFO_STREAM("server non-responsive, exiting control loop...");
+        return true;
+    }
+    return false;
+    //if SUCCEEDED false determine whether to cancel or not
+}
+void RobotFinState::run(){
+    while(ros::ok()){
+        if (clientGoalState == actionlib::SimpleClientGoalState::StateEnum::SUCCEEDED && action_client_fins_->isServerConnected()){
+        PIDController();
+        update();
+        }
+        else if (shouldCancelRun()){
+            return;
+        }
+    }
 }
 //void RobotFinState::init(ros::NodeHandle &nh){}
 void RobotFinState::PIDController(){}
-void RobotFinState::controlLoop(){
+void RobotFinState::update(){
     switch(control_mode_){
         case CONTROLMODE::frequency:
         {

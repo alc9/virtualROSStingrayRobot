@@ -28,30 +28,34 @@ namespace wave_model{
     class RobotFinState{
             public:
                 RobotFinState(const ros::NodeHandle &nh);
-                virtual ~RobotFinState();
+                ~RobotFinState();
                 /**
                  * @brief Read in control variables for robot, access for controller via protected attributes
                  * @param
                  * @return 
                  */
-                virtual void read();
+                void read();
                 /**
                  * @brief Write control variables to joint controller via actions
                  * @param
                  * @return 
                  */
-                virtual void write();
+                void write();
                 //virtual void init(ros::NodeHandle &nh);
-                virtual void PIDController();
-                virtual void controlLoop();
+                void PIDController();
+                void update();
+                void run();
             protected:
                 ros::NodeHandle nh_;
                 const std::string name_;
                 int control_mode_;
             private:
+                void doneCb(const actionlib::SimpleClientGoalState &state);
+                bool shouldCancelRun();
                 double waveGeneratorFactory(int index);
                 void setActionGoalMsg();
                 void setPhaseDifference();
+                int clientGoalState=actionlib::SimpleClientGoalState::StateEnum::SUCCEEDED;
                 const int * stride_=nullptr;
                 bool is_stride_left_;
                 double freq_left_;
