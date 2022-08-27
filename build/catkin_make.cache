@@ -1,0 +1,2 @@
+stingray_hw_control:virtualStingray_description
+-DCATKIN_DEVEL_PREFIX=/home/alex/projects/stingray/virtualStingray/virtualROSStingrayRobot/devel -DCMAKE_INSTALL_PREFIX=/home/alex/projects/stingray/virtualStingray/virtualROSStingrayRobot/install -G Unix Makefiles

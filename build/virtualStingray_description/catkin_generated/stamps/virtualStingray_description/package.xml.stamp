@@ -1,0 +1,22 @@
+<package>
+  <name>virtualStingray_description</name>
+  <version>0.0.0</version>
+
+  <description>This package contains virtualStingray descriptions</description>
+  <maintainer email="alexanderlewiscunningham@gmail.com">stingray</maintainer>
+
+
+  <!-- One license tag required, multiple allowed, one license per tag -->
+  <!-- Commonly used license strings: -->
+  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+  <run_depend>joint_state_publisher</run_depend>
+  <!-- convert joint states to TF transforms -->
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>rviz</run_depend>
+  <run_depend>xacro</run_depend>
+
+</package>

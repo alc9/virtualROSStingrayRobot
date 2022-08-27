@@ -1,0 +1,8 @@
+prefix=/home/alex/projects/stingray/virtualStingray/virtualROSStingrayRobot/devel
+
+Name: stingray_hw_control
+Description: Description of stingray_hw_control
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -1,33 +1,31 @@
 <launch>
-  <!-- Get URDF model arg-->
-  <arg name="model" default="$(find virtualStingray_description)/urdf/robot_simplified.urdf"/>
-  <!-- Load model onto param server-->
-  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
-  
   <!-- ns for controller config, controller, spawner and states must be the same-->
-  <group ns="stingray">
+  <group ns="/stingray">
+    <!-- Get URDF model arg-->
+    <arg name="model" default="$(find virtualStingray_description)/urdf/robot_simplified.urdf"/>
+    <!-- Load model onto param server-->
+    <param name="/stingray/robot_description" command="$(find xacro)/xacro $(arg model)" />
     <!-- Load controller config onto param server-->
-    <rosparam file="$(find stingray_hw_control)/config/config.yaml" command="load"/>
+    <!-- NS yaml file must be loaded to the same location as controllers-->
+    <rosparam file="$(find stingray_hw_control)/config/config.yaml" command="load" ns="stingray"/>
     <!-- Load hw-->
     <node name="stingray_hw_control_node" pkg="stingray_hw_control" type="stingray_hw_control_node" 
         respawn="false" output="screen"/>
-    <!-- controller spawner must be on same namespace as controller-->
-    <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="true" output="screen" args="joint_trajectory_controller"/> -->
-    <!--
-    <node name="ros_control_controller_manager" pkg="controller_manager" type="controller_manager" respawn="false"
-	  output="screen" args="spawn joint_state_controller position_trajectory_controller" />
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
-    -->
-    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="true"
-    output="screen"
-    args="stingray_controller"/>
-    </group>
-    <!-- publish to make joints move here-->
+  </group>
+
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen" if="false"/>
-  <remap from="joint_states/" to="/hardware_interface/joints" />
+    <remap from="joint_states/" to="/hardware_interface/joints" />
+    <arg name="rvizconfig" default="virtualStingray/rviz/urdf.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+  
+  <group ns="stingray">
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="true"
+        output="screen" args="stingray/stingray_controller stingray/position_controllers"/>
+  </group>
+    <!-- publish to make joints move here-->
   <!--enable rviz gui -->
   <!-- TODO: set perspective-->
+  <!--
   <arg name="gui" default="true" />
-  <arg name="rvizconfig" default="virtualStingray/rviz/urdf.rviz" />
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+  -->
 </launch>

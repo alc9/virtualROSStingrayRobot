@@ -9,23 +9,28 @@
 #include <cmath>
 //#include <controller_manager/controller_manager.h>
 
-class StingrayHWInterface;
-
+//class StingrayHWInterface;
+//controller_manager - couldn't find expected controller_manager ros interface
+//insufficient resources to load all controllers
+//not loading proper controllers config file and controller manager is unable to find them
+//launching controller names appending the namespace and not loading ros control interface with that same namespace
 int main(int argc,char** argv){
-    //need parent name for accessing param server
     ros::init(argc,argv,"hardware_interface");
     ros::NodeHandle nh;
-    ros::AsyncSpinner spinner(2);
-    spinner.start();
-    //std::shared_ptr<urdf::Model> urdfModel (new urdf::Model());
+    ros::CallbackQueue queue;
+    nh.setCallbackQueue(&queue);
+
     std::shared_ptr<StingrayHWInterface> interface (new StingrayHWInterface(nh));
     ros_control_boilerplate::GenericHWControlLoop control_loop(nh,interface);
-    //@TODO: just for testing -> will be wrapped in robot_fin_controller for management
-    wave_model::RobotFinState waveModel = wave_model::RobotFinState(nh);
-    //run waveModel loop
-    waveModel.run();
-    //ros::waitForShutdown();
+    ros::AsyncSpinner spinner(4,&queue);
+    spinner.start();
+    //start stingray_controller action server before beginning wave model
+    ROS_INFO_STREAM("Running control_loop");
     control_loop.run();
-    //setup robot_fin_controller
+    wave_model::RobotFinState waveModel = wave_model::RobotFinState(nh);
+    //start on a new thread
+    ROS_INFO_STREAM("Running wave model");
+    waveModel.run();
+    spinner.stop();
     return 0;
 }
